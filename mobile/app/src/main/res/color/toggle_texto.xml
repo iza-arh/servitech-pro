@@ -1,0 +1,4 @@
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:state_selected="true" android:color="@color/login_toggle_seleccionado_texto" />
+    <item android:color="@color/login_toggle_texto" />
+</selector>

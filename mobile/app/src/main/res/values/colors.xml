@@ -1,5 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="black">#FF000000</color>
-    <color name="white">#FFFFFFFF</color>
+    <color name="login_fondo">#FFFFFF</color>
+    <color name="login_texto_titulo">#1E1E1E</color>
+    <color name="login_acento">#3F51B5</color>
+    <color name="login_estado_online">#3BB5C1</color>
+    <color name="login_borde_campo">#CCCCCC</color>
+    <color name="login_icono">#666666</color>
+    <color name="login_error">#E53935</color>
+    <color name="login_boton_texto">#FFFFFF</color>
+    <color name="login_toggle_fondo">#3F7CB0</color>
+    <color name="login_toggle_seleccionado_fondo">#FFFFFF</color>
+    <color name="login_toggle_seleccionado_texto">#1E1E1E</color>
+    <color name="login_toggle_texto">#FFFFFF</color>
 </resources>

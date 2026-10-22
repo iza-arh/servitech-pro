@@ -1,0 +1,249 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/login_fondo"
+    android:fillViewport="true"
+    tools:context=".ui.login.LoginActivity">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="24dp">
+
+        <!-- Indicador de estado superior ("En línea"). Estático por ahora;
+             se volverá dinámico cuando exista el listener de conectividad -->
+        <LinearLayout
+            android:id="@+id/layoutStatus"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <View
+                android:id="@+id/viewStatusDot"
+                android:layout_width="8dp"
+                android:layout_height="8dp"
+                android:layout_marginEnd="6dp"
+                android:background="@drawable/bg_status_dot" />
+
+            <TextView
+                android:id="@+id/tvStatus"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/login_estado_en_linea"
+                android:textColor="@color/login_estado_online"
+                android:textSize="12sp" />
+        </LinearLayout>
+
+        <!-- Título: cabeza de la cadena vertical (aquí van chainStyle y bias) -->
+        <TextView
+            android:id="@+id/tvTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="32dp"
+            android:text="@string/login_titulo"
+            android:textColor="@color/login_texto_titulo"
+            android:textSize="22sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toTopOf="@+id/toggleModo"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/layoutStatus"
+            app:layout_constraintVertical_bias="0.4"
+            app:layout_constraintVertical_chainStyle="packed" />
+
+        <!-- Selector de modo: píldora con dos opciones (login / registro) -->
+        <LinearLayout
+            android:id="@+id/toggleModo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            android:background="@drawable/bg_toggle_pill"
+            android:orientation="horizontal"
+            android:padding="3dp"
+            app:layout_constraintBottom_toTopOf="@+id/tilEmail"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tvTitle">
+
+            <TextView
+                android:id="@+id/btnModoLogin"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/bg_toggle_segment"
+                android:clickable="true"
+                android:focusable="true"
+                android:gravity="center"
+                android:minHeight="40dp"
+                android:paddingStart="16dp"
+                android:paddingEnd="16dp"
+                android:text="@string/login_boton"
+                android:textColor="@color/toggle_texto"
+                android:textSize="12sp" />
+
+            <TextView
+                android:id="@+id/btnModoRegistro"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/bg_toggle_segment"
+                android:clickable="true"
+                android:focusable="true"
+                android:gravity="center"
+                android:minHeight="40dp"
+                android:paddingStart="16dp"
+                android:paddingEnd="16dp"
+                android:text="@string/login_modo_registro"
+                android:textColor="@color/toggle_texto"
+                android:textSize="12sp" />
+        </LinearLayout>
+
+        <!-- Campo de usuario -->
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/tilEmail"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="12dp"
+            android:hint="@string/login_hint_email"
+            app:boxCornerRadiusBottomEnd="10dp"
+            app:boxCornerRadiusBottomStart="10dp"
+            app:boxCornerRadiusTopEnd="10dp"
+            app:boxCornerRadiusTopStart="10dp"
+            app:boxStrokeColor="@color/login_borde_campo"
+            app:layout_constraintBottom_toTopOf="@+id/tilPassword"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/toggleModo"
+            app:startIconDrawable="@drawable/ic_person"
+            app:startIconTint="@color/login_icono">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/etEmail"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textEmailAddress"
+                android:textSize="14sp" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <!-- Campo de contraseña -->
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/tilPassword"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            android:hint="@string/login_hint_password"
+            app:boxCornerRadiusBottomEnd="10dp"
+            app:boxCornerRadiusBottomStart="10dp"
+            app:boxCornerRadiusTopEnd="10dp"
+            app:boxCornerRadiusTopStart="10dp"
+            app:boxStrokeColor="@color/login_borde_campo"
+            app:endIconMode="password_toggle"
+            app:layout_constraintBottom_toTopOf="@+id/tilConfirmPassword"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tilEmail"
+            app:startIconDrawable="@drawable/ic_lock"
+            app:startIconTint="@color/login_icono">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/etPassword"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textPassword"
+                android:textSize="14sp" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/tilConfirmPassword"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            android:hint="@string/login_hint_confirmar"
+            android:visibility="gone"
+            app:boxCornerRadiusBottomEnd="10dp"
+            app:boxCornerRadiusBottomStart="10dp"
+            app:boxCornerRadiusTopEnd="10dp"
+            app:boxCornerRadiusTopStart="10dp"
+            app:boxStrokeColor="@color/login_borde_campo"
+            app:endIconMode="password_toggle"
+            app:layout_constraintBottom_toTopOf="@+id/layoutErrorMessage"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tilPassword"
+            app:startIconDrawable="@drawable/ic_lock"
+            app:startIconTint="@color/login_icono">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/etConfirmPassword"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textPassword"
+                android:textSize="14sp" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <!-- Mensaje de error: oculto hasta que el login falle -->
+        <LinearLayout
+            android:id="@+id/layoutErrorMessage"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:visibility="gone"
+            app:layout_constraintBottom_toTopOf="@+id/btnLogin"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tilConfirmPassword">
+
+            <ImageView
+                android:layout_width="16dp"
+                android:layout_height="16dp"
+                android:layout_marginEnd="6dp"
+                android:contentDescription="@null"
+                android:src="@drawable/ic_error"
+                app:tint="@color/login_error" />
+
+            <TextView
+                android:id="@+id/tvError"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/login_error_credenciales"
+                android:textColor="@color/login_error"
+                android:textSize="13sp" />
+        </LinearLayout>
+
+        <!-- Botón "Iniciar sesión" -->
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnLogin"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingStart="24dp"
+            android:paddingTop="12dp"
+            android:paddingEnd="24dp"
+            android:paddingBottom="12dp"
+            android:text="@string/login_boton"
+            android:textAllCaps="false"
+            android:textColor="@color/login_boton_texto"
+            android:textSize="14sp"
+            app:backgroundTint="@color/login_acento"
+            app:cornerRadius="20dp"
+            app:icon="@drawable/ic_play_arrow"
+            app:iconGravity="textStart"
+            app:iconPadding="8dp"
+            app:iconTint="@color/login_boton_texto"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/layoutErrorMessage" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</ScrollView>
