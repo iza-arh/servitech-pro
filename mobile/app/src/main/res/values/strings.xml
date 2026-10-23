@@ -11,4 +11,5 @@
     <string name="login_boton_registro">Crear cuenta</string>
     <string name="login_hint_confirmar">Confirmar contraseña</string>
     <string name="login_recordarme">Recordarme</string>
+    <string name="login_hint_nombre">Nombre completo</string>
 </resources>
