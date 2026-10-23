@@ -12,4 +12,9 @@
     <string name="login_hint_confirmar">Confirmar contraseña</string>
     <string name="login_recordarme">Recordarme</string>
     <string name="login_hint_nombre">Nombre completo</string>
+    <string name="home_titulo">Servitech Pro</string>
+    <string name="menu_ordenes">Órdenes</string>
+    <string name="menu_mapa">Mapa</string>
+    <string name="menu_perfil">Perfil</string>
+    <string name="menu_cerrar_sesion">Cerrar sesión</string>
 </resources>
