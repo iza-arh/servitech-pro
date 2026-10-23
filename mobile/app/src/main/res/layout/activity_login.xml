@@ -199,7 +199,7 @@
             android:gravity="center_vertical"
             android:orientation="horizontal"
             android:visibility="gone"
-            app:layout_constraintBottom_toTopOf="@+id/btnLogin"
+            app:layout_constraintBottom_toTopOf="@+id/chipRecordarme"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tilConfirmPassword">
@@ -220,6 +220,19 @@
                 android:textColor="@color/login_error"
                 android:textSize="13sp" />
         </LinearLayout>
+
+        <com.google.android.material.chip.Chip
+            android:id="@+id/chipRecordarme"
+            style="@style/Widget.Material3.Chip.Filter"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            android:checkable="true"
+            android:text="@string/login_recordarme"
+            app:layout_constraintBottom_toTopOf="@+id/btnLogin"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/layoutErrorMessage" />
 
         <!-- Botón "Iniciar sesión" -->
         <com.google.android.material.button.MaterialButton
@@ -243,7 +256,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/layoutErrorMessage" />
+            app:layout_constraintTop_toBottomOf="@+id/chipRecordarme" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </ScrollView>

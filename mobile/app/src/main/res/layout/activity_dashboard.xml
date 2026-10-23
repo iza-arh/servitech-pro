@@ -7,15 +7,24 @@
     android:layout_height="match_parent"
     tools:context=".ui.dashboard.DashboardActivity">
 
-
     <TextView
+        android:id="@+id/tvHomeTemp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Welcome to my app ngga"
+        android:text="Home (temporal)"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <Button
+        android:id="@+id/btnLogoutTemp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:text="Cerrar sesión"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvHomeTemp" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,5 +1,6 @@
 package com.iza.servitech_pro.ui.login;
 
+import com.google.android.material.chip.Chip;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -40,7 +41,7 @@ public class LoginActivity extends AppCompatActivity {
     private boolean modoRegistro = false;
 
     private TextInputLayout tilEmail, tilPassword;
-
+    private Chip chipRecordarme;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,9 +63,12 @@ public class LoginActivity extends AppCompatActivity {
         tilEmail = findViewById(R.id.tilEmail);
         tilPassword = findViewById(R.id.tilPassword);
 
+        chipRecordarme = findViewById(R.id.chipRecordarme);
+
         btnModoLogin.setOnClickListener(v -> cambiarModo(false));
         btnModoRegistro.setOnClickListener(v -> cambiarModo(true));
         cambiarModo(false); // arranca en modo login
+        cargarCredencialesRecordadas();
 
         // El mismo botón ejecuta login o registro según el modo actual
         btnLogin.setOnClickListener(v -> {
@@ -102,6 +106,11 @@ public class LoginActivity extends AppCompatActivity {
                 .addOnCompleteListener(this, task -> {
                     btnLogin.setEnabled(true);
                     if (task.isSuccessful()) {
+                        if (chipRecordarme.isChecked()) {
+                            SecurePrefs.guardarCredenciales(this, email, password);
+                        } else {
+                            SecurePrefs.borrarCredenciales(this);
+                        }
                         startActivity(new Intent(this, DashboardActivity.class));
                         finish();
                     } else {
@@ -119,6 +128,13 @@ public class LoginActivity extends AppCompatActivity {
                 });
     }
 
+    private void cargarCredencialesRecordadas() {
+        if (SecurePrefs.recordarActivo(this)) {
+            etUsername.setText(SecurePrefs.leerEmailRecordado(this));
+            etPassword.setText(SecurePrefs.leerPasswordRecordada(this));
+            chipRecordarme.setChecked(true);
+        }
+    }
 
     // Muestra el mensaje de error debajo del campo de contraseña
     private void mostrarError(String mensaje) {
@@ -150,6 +166,7 @@ public class LoginActivity extends AppCompatActivity {
         layoutErrorMessage.setVisibility(View.GONE);
         tilConfirmPassword.setVisibility(registro ? View.VISIBLE : View.GONE);
         btnLogin.setText(registro ? R.string.login_boton_registro : R.string.login_boton);
+        chipRecordarme.setVisibility(registro ? View.GONE : View.VISIBLE);
     }
 
     private void intentarRegistro() {

@@ -77,4 +77,55 @@ public class SecurePrefs {
     public static void cerrarSesion(Context context) {
         context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE).edit().clear().apply();
     }
+
+    private static final String PREFS_RECUERDO = "recordarme";
+
+    public static void guardarCredenciales(Context context, String email, String password) {
+        try {
+            Cipher cipher = Cipher.getInstance("AES/GCM/NoPadding");
+            cipher.init(Cipher.ENCRYPT_MODE, obtenerOCrearClave());
+            byte[] iv = cipher.getIV();
+            byte[] cifrado = cipher.doFinal(password.getBytes(StandardCharsets.UTF_8));
+
+            context.getSharedPreferences(PREFS_RECUERDO, Context.MODE_PRIVATE).edit()
+                    .putBoolean("activo", true)
+                    .putString("email", email)
+                    .putString("password_cifrada", Base64.encodeToString(cifrado, Base64.NO_WRAP))
+                    .putString("iv", Base64.encodeToString(iv, Base64.NO_WRAP))
+                    .apply();
+        } catch (Exception e) {
+            borrarCredenciales(context); // si falla el cifrado, no se guarda nada
+        }
+    }
+
+    public static boolean recordarActivo(Context context) {
+        return context.getSharedPreferences(PREFS_RECUERDO, Context.MODE_PRIVATE)
+                .getBoolean("activo", false);
+    }
+
+    public static String leerEmailRecordado(Context context) {
+        return context.getSharedPreferences(PREFS_RECUERDO, Context.MODE_PRIVATE)
+                .getString("email", "");
+    }
+
+    public static String leerPasswordRecordada(Context context) {
+        try {
+            SharedPreferences prefs = context.getSharedPreferences(PREFS_RECUERDO, Context.MODE_PRIVATE);
+            String dataB64 = prefs.getString("password_cifrada", null);
+            String ivB64 = prefs.getString("iv", null);
+            if (dataB64 == null || ivB64 == null) return "";
+
+            Cipher cipher = Cipher.getInstance("AES/GCM/NoPadding");
+            cipher.init(Cipher.DECRYPT_MODE, obtenerOCrearClave(),
+                    new GCMParameterSpec(128, Base64.decode(ivB64, Base64.NO_WRAP)));
+            return new String(cipher.doFinal(Base64.decode(dataB64, Base64.NO_WRAP)),
+                    StandardCharsets.UTF_8);
+        } catch (Exception e) {
+            return "";
+        }
+    }
+
+    public static void borrarCredenciales(Context context) {
+        context.getSharedPreferences(PREFS_RECUERDO, Context.MODE_PRIVATE).edit().clear().apply();
+    }
 }
