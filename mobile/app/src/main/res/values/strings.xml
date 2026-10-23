@@ -6,7 +6,7 @@
     <string name="login_hint_password">Contraseña</string>
     <string name="login_error_credenciales">Usuario o contraseña inválidos</string>
     <string name="login_boton">Iniciar sesión</string>
-    <string name="login_hint_email">Usuario</string>
+    <string name="login_hint_email">Correo electrónico</string>
     <string name="login_modo_registro">Registrarse</string>
     <string name="login_boton_registro">Crear cuenta</string>
     <string name="login_hint_confirmar">Confirmar contraseña</string>

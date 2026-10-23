@@ -18,7 +18,11 @@ import com.iza.servitech_pro.data.remote.dto.LoginResponse;
 import com.iza.servitech_pro.data.remote.dto.RegisterRequest;
 import com.iza.servitech_pro.data.repository.SecurePrefs;
 import com.iza.servitech_pro.ui.dashboard.DashboardActivity;
-
+import com.google.firebase.FirebaseNetworkException;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
+import com.google.firebase.auth.FirebaseAuthInvalidUserException;
+import com.iza.servitech_pro.util.Validador;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -35,6 +39,7 @@ public class LoginActivity extends AppCompatActivity {
     private TextView btnModoLogin, btnModoRegistro;
     private boolean modoRegistro = false;
 
+    private TextInputLayout tilEmail, tilPassword;
 
 
     @Override
@@ -54,6 +59,9 @@ public class LoginActivity extends AppCompatActivity {
         btnModoLogin = findViewById(R.id.btnModoLogin);
         btnModoRegistro = findViewById(R.id.btnModoRegistro);
 
+        tilEmail = findViewById(R.id.tilEmail);
+        tilPassword = findViewById(R.id.tilPassword);
+
         btnModoLogin.setOnClickListener(v -> cambiarModo(false));
         btnModoRegistro.setOnClickListener(v -> cambiarModo(true));
         cambiarModo(false); // arranca en modo login
@@ -70,34 +78,45 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void intentarLogin() {
-    // Oculta el error de un intento anterior
         layoutErrorMessage.setVisibility(View.GONE);
-        LoginRequest request = new LoginRequest();
+        tilEmail.setError(null);
+        tilPassword.setError(null);
 
+        String email = etUsername.getText().toString().trim();
+        String password = etPassword.getText().toString();
 
-        request.setUsername(etUsername.getText().toString().trim());
-        request.setPassword(etPassword.getText().toString());
-        RetrofitClient.getAuthApi().login(request).enqueue(new Callback<LoginResponse>() {
-            @Override
-            public void onResponse(Call<LoginResponse> call, Response<LoginResponse> response) {
-                if (response.isSuccessful() && response.body() != null) {
-                    // Guarda el token cifrado con el Keystore de Android
-                    SecurePrefs.guardarSesion(LoginActivity.this,
-                            response.body().getToken(), response.body().getRol());
-                    irSegunRol(response.body().getRol());
-                } else if (response.code() == 401) {
-                    mostrarError(getString(R.string.login_error_credenciales));
-                } else {
-                  mostrarError("Error del servidor (" + response.code() + ")");
-                }
-            }
+        // Validaciones locales antes de llamar a Firebase
+        boolean valido = true;
+        if (!Validador.esCorreoValido(email)) {
+            tilEmail.setError("Ingresa un correo válido");
+            valido = false;
+        }
+        if (!Validador.esPasswordValida(password)) {
+            tilPassword.setError("Mínimo 8 caracteres, solo letras y números (al menos una letra y un número)");
+            valido = false;
+        }
+        if (!valido) return;
 
-            @Override
-            public void onFailure(Call<LoginResponse> call, Throwable t) {
-                Log.e("LOGIN", "Fallo la peticion de login", t);
-                mostrarError("Error de conexión");
-            }
-        });
+        btnLogin.setEnabled(false);
+        FirebaseAuth.getInstance().signInWithEmailAndPassword(email, password)
+                .addOnCompleteListener(this, task -> {
+                    btnLogin.setEnabled(true);
+                    if (task.isSuccessful()) {
+                        startActivity(new Intent(this, DashboardActivity.class));
+                        finish();
+                    } else {
+                        Exception e = task.getException();
+                        if (e instanceof FirebaseAuthInvalidCredentialsException
+                                || e instanceof FirebaseAuthInvalidUserException) {
+                            mostrarError(getString(R.string.login_error_credenciales));
+                        } else if (e instanceof FirebaseNetworkException) {
+                            mostrarError("Sin conexión a internet");
+                        } else {
+                            Log.e("LOGIN", "Error al iniciar sesión", e);
+                            mostrarError("Error al iniciar sesión");
+                        }
+                    }
+                });
     }
 
 
