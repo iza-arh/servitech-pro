@@ -1,6 +1,6 @@
 plugins {
     alias(libs.plugins.android.application)
-    alias(libs.plugins.google.services) apply false
+    alias(libs.plugins.google.services)
 }
 
 android {
