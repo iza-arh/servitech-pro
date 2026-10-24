@@ -8,10 +8,10 @@
             <InsightsFilterSettings>
               <option name="connection">
                 <ConnectionSetting>
-                  <option name="appId" value="PLACEHOLDER" />
-                  <option name="mobileSdkAppId" value="" />
-                  <option name="projectId" value="" />
-                  <option name="projectNumber" value="" />
+                  <option name="appId" value="com.iza.servitech_pro" />
+                  <option name="mobileSdkAppId" value="1:718800373569:android:9e18b23407942b05af43c0" />
+                  <option name="projectId" value="servitech-pro-e8e72" />
+                  <option name="projectNumber" value="718800373569" />
                 </ConnectionSetting>
               </option>
               <option name="signal" value="SIGNAL_UNSPECIFIED" />

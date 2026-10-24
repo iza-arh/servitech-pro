@@ -6,8 +6,15 @@
     <string name="login_hint_password">Contraseña</string>
     <string name="login_error_credenciales">Usuario o contraseña inválidos</string>
     <string name="login_boton">Iniciar sesión</string>
-    <string name="login_hint_email">Usuario</string>
+    <string name="login_hint_email">Correo electrónico</string>
     <string name="login_modo_registro">Registrarse</string>
     <string name="login_boton_registro">Crear cuenta</string>
     <string name="login_hint_confirmar">Confirmar contraseña</string>
+    <string name="login_recordarme">Recordarme</string>
+    <string name="login_hint_nombre">Nombre completo</string>
+    <string name="home_titulo">Servitech Pro</string>
+    <string name="menu_ordenes">Órdenes</string>
+    <string name="menu_mapa">Mapa</string>
+    <string name="menu_perfil">Perfil</string>
+    <string name="menu_cerrar_sesion">Cerrar sesión</string>
 </resources>

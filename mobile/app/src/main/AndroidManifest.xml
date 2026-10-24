@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
     <application
         android:allowBackup="true"
@@ -14,23 +15,38 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Servitech_Pro"
         android:usesCleartextTraffic="true">
+
         <activity
-            android:name=".ui.dashboard.DashboardActivity"
-            android:exported="false" />
-        <activity
-            android:name=".ui.login.LoginActivity"
+            android:name=".ui.splash.SplashActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
 
         <activity
+            android:name=".ui.login.LoginActivity"
+            android:exported="false" />
+
+        <activity
+            android:name=".ui.dashboard.DashboardActivity"
+            android:exported="false" />
+
+        <activity
+            android:name=".ui.ordenes.OrdenesActivity"
+            android:exported="false" />
+
+        <activity
+            android:name=".ui.mapa.MapaActivity"
+            android:exported="false" />
+
+        <activity
             android:name=".MainActivity"
-            android:exported="false">
-        </activity>
+            android:exported="false" />
+        <activity
+            android:name=".ui.perfil.PerfilActivity"
+            android:exported="false" />
     </application>
 
 </manifest>

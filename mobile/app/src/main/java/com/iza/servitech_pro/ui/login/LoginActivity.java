@@ -1,5 +1,6 @@
 package com.iza.servitech_pro.ui.login;
 
+import com.google.android.material.chip.Chip;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -18,10 +19,21 @@ import com.iza.servitech_pro.data.remote.dto.LoginResponse;
 import com.iza.servitech_pro.data.remote.dto.RegisterRequest;
 import com.iza.servitech_pro.data.repository.SecurePrefs;
 import com.iza.servitech_pro.ui.dashboard.DashboardActivity;
-
+import com.google.firebase.FirebaseNetworkException;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
+import com.google.firebase.auth.FirebaseAuthInvalidUserException;
+import com.iza.servitech_pro.util.Validador;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+import com.google.firebase.auth.FirebaseAuthUserCollisionException;
+import com.google.firebase.firestore.FirebaseFirestore;
+import java.util.HashMap;
+import java.util.Map;
+import com.iza.servitech_pro.data.local.AppDatabase;
+import com.iza.servitech_pro.data.local.entity.UsuarioLocal;
+import java.util.concurrent.Executors;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -35,7 +47,11 @@ public class LoginActivity extends AppCompatActivity {
     private TextView btnModoLogin, btnModoRegistro;
     private boolean modoRegistro = false;
 
+    private TextInputLayout tilEmail, tilPassword;
+    private Chip chipRecordarme;
 
+    private TextInputLayout tilNombre;
+    private EditText etNombre;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,9 +70,17 @@ public class LoginActivity extends AppCompatActivity {
         btnModoLogin = findViewById(R.id.btnModoLogin);
         btnModoRegistro = findViewById(R.id.btnModoRegistro);
 
+        tilEmail = findViewById(R.id.tilEmail);
+        tilPassword = findViewById(R.id.tilPassword);
+
+        chipRecordarme = findViewById(R.id.chipRecordarme);
+        tilNombre = findViewById(R.id.tilNombre);
+        etNombre = findViewById(R.id.etNombre);
+
         btnModoLogin.setOnClickListener(v -> cambiarModo(false));
         btnModoRegistro.setOnClickListener(v -> cambiarModo(true));
         cambiarModo(false); // arranca en modo login
+        cargarCredencialesRecordadas();
 
         // El mismo botón ejecuta login o registro según el modo actual
         btnLogin.setOnClickListener(v -> {
@@ -70,36 +94,59 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void intentarLogin() {
-    // Oculta el error de un intento anterior
         layoutErrorMessage.setVisibility(View.GONE);
-        LoginRequest request = new LoginRequest();
+        tilEmail.setError(null);
+        tilPassword.setError(null);
 
+        String email = etUsername.getText().toString().trim();
+        String password = etPassword.getText().toString();
 
-        request.setUsername(etUsername.getText().toString().trim());
-        request.setPassword(etPassword.getText().toString());
-        RetrofitClient.getAuthApi().login(request).enqueue(new Callback<LoginResponse>() {
-            @Override
-            public void onResponse(Call<LoginResponse> call, Response<LoginResponse> response) {
-                if (response.isSuccessful() && response.body() != null) {
-                    // Guarda el token cifrado con el Keystore de Android
-                    SecurePrefs.guardarSesion(LoginActivity.this,
-                            response.body().getToken(), response.body().getRol());
-                    irSegunRol(response.body().getRol());
-                } else if (response.code() == 401) {
-                    mostrarError(getString(R.string.login_error_credenciales));
-                } else {
-                  mostrarError("Error del servidor (" + response.code() + ")");
-                }
-            }
+        // Validaciones locales antes de llamar a Firebase
+        boolean valido = true;
+        if (!Validador.esCorreoValido(email)) {
+            tilEmail.setError("Ingresa un correo válido");
+            valido = false;
+        }
+        if (!Validador.esPasswordValida(password)) {
+            tilPassword.setError("Mínimo 8 caracteres, solo letras y números (al menos una letra y un número)");
+            valido = false;
+        }
+        if (!valido) return;
 
-            @Override
-            public void onFailure(Call<LoginResponse> call, Throwable t) {
-                Log.e("LOGIN", "Fallo la peticion de login", t);
-                mostrarError("Error de conexión");
-            }
-        });
+        btnLogin.setEnabled(false);
+        FirebaseAuth.getInstance().signInWithEmailAndPassword(email, password)
+                .addOnCompleteListener(this, task -> {
+                    btnLogin.setEnabled(true);
+                    if (task.isSuccessful()) {
+                        if (chipRecordarme.isChecked()) {
+                            SecurePrefs.guardarCredenciales(this, email, password);
+                        } else {
+                            SecurePrefs.borrarCredenciales(this);
+                        }
+                        startActivity(new Intent(this, DashboardActivity.class));
+                        finish();
+                    } else {
+                        Exception e = task.getException();
+                        if (e instanceof FirebaseAuthInvalidCredentialsException
+                                || e instanceof FirebaseAuthInvalidUserException) {
+                            mostrarError(getString(R.string.login_error_credenciales));
+                        } else if (e instanceof FirebaseNetworkException) {
+                            mostrarError("Sin conexión a internet");
+                        } else {
+                            Log.e("LOGIN", "Error al iniciar sesión", e);
+                            mostrarError("Error al iniciar sesión");
+                        }
+                    }
+                });
     }
 
+    private void cargarCredencialesRecordadas() {
+        if (SecurePrefs.recordarActivo(this)) {
+            etUsername.setText(SecurePrefs.leerEmailRecordado(this));
+            etPassword.setText(SecurePrefs.leerPasswordRecordada(this));
+            chipRecordarme.setChecked(true);
+        }
+    }
 
     // Muestra el mensaje de error debajo del campo de contraseña
     private void mostrarError(String mensaje) {
@@ -131,58 +178,97 @@ public class LoginActivity extends AppCompatActivity {
         layoutErrorMessage.setVisibility(View.GONE);
         tilConfirmPassword.setVisibility(registro ? View.VISIBLE : View.GONE);
         btnLogin.setText(registro ? R.string.login_boton_registro : R.string.login_boton);
+        chipRecordarme.setVisibility(registro ? View.GONE : View.VISIBLE);
+        tilNombre.setVisibility(registro ? View.VISIBLE : View.GONE);
+        tilNombre.setError(null);
+        tilEmail.setError(null);
+        tilPassword.setError(null);
+        tilConfirmPassword.setError(null);
     }
 
     private void intentarRegistro() {
         layoutErrorMessage.setVisibility(View.GONE);
+        tilNombre.setError(null);
+        tilEmail.setError(null);
+        tilPassword.setError(null);
+        tilConfirmPassword.setError(null);
 
-        String usuario = etUsername.getText().toString().trim();
+        String nombre = etNombre.getText().toString().trim();
+        String email = etUsername.getText().toString().trim();
         String password = etPassword.getText().toString();
         String confirmacion = etConfirmPassword.getText().toString();
 
-        // Validaciones locales antes de llamar al servidor
-        if (usuario.isEmpty()) {
-            mostrarError("Ingresa tu usuario");
-            return;
+        boolean valido = true;
+        if (!Validador.esNombreValido(nombre)) {
+            tilNombre.setError("El nombre debe tener al menos 7 caracteres");
+            valido = false;
         }
-        // Si el campo se queda como Email, agrega aquí:
-        // if (!Patterns.EMAIL_ADDRESS.matcher(usuario).matches()) { ... }
-        if (password.length() < 8) {
-            mostrarError("La contraseña debe tener al menos 8 caracteres");
-            return;
+        if (!Validador.esCorreoValido(email)) {
+            tilEmail.setError("Ingresa un correo válido");
+            valido = false;
+        }
+        if (!Validador.esPasswordValida(password)) {
+            tilPassword.setError("Mínimo 8 caracteres, solo letras y números (al menos una letra y un número)");
+            valido = false;
         }
         if (!password.equals(confirmacion)) {
-            mostrarError("Las contraseñas no coinciden");
-            return;
+            tilConfirmPassword.setError("Las contraseñas no coinciden");
+            valido = false;
         }
+        if (!valido) return;
 
-        RegisterRequest request = new RegisterRequest();
-        request.setUsername(usuario);
-        request.setPassword(password);
+        btnLogin.setEnabled(false);
+        FirebaseAuth auth = FirebaseAuth.getInstance();
+        auth.createUserWithEmailAndPassword(email, password)
+                .addOnCompleteListener(this, task -> {
+                    if (!task.isSuccessful()) {
+                        btnLogin.setEnabled(true);
+                        Exception e = task.getException();
+                        if (e instanceof FirebaseAuthUserCollisionException) {
+                            mostrarError("Ese correo ya está registrado");
+                        } else if (e instanceof FirebaseNetworkException) {
+                            mostrarError("Sin conexión a internet");
+                        } else {
+                            Log.e("REGISTER", "Error al crear la cuenta", e);
+                            mostrarError("No se pudo crear la cuenta");
+                        }
+                        return;
+                    }
 
-        RetrofitClient.getAuthApi().register(request).enqueue(new Callback<Void>() {
-            @Override
-            public void onResponse(Call<Void> call, Response<Void> response) {
-                if (response.isSuccessful()) { // 201
-                    Toast.makeText(LoginActivity.this,
-                            "Cuenta creada. Inicia sesión", Toast.LENGTH_SHORT).show();
-                    etPassword.setText("");
-                    etConfirmPassword.setText("");
-                    cambiarModo(false); // vuelve al modo login
-                } else if (response.code() == 409) {
-                    mostrarError("Ese usuario ya está registrado");
-                } else if (response.code() == 400) {
-                    mostrarError("Datos inválidos");
-                } else {
-                    mostrarError("Error del servidor (" + response.code() + ")");
-                }
-            }
+                    String uid = task.getResult().getUser().getUid();
+                    Map<String, Object> perfil = new HashMap<>();
+                    perfil.put("uid", uid);
+                    perfil.put("email", email);
+                    perfil.put("nombre", nombre); // la contraseña nunca se guarda aquí
 
-            @Override
-            public void onFailure(Call<Void> call, Throwable t) {
-                Log.e("REGISTER", "Fallo la peticion de registro", t);
-                mostrarError("Error de conexión");
-            }
-        });
+                    FirebaseFirestore.getInstance().collection("usuarios").document(uid)
+                            .set(perfil)
+                            .addOnSuccessListener(v -> {
+                                // Guarda también en Room (base local). La contraseña NO se guarda.
+                                Executors.newSingleThreadExecutor().execute(() -> {
+                                    try {
+                                        AppDatabase.getInstance(getApplicationContext())
+                                                .usuarioLocalDao()
+                                                .insertar(new UsuarioLocal(uid, email, nombre, null, false));
+                                    } catch (Exception ex) {
+                                        Log.e("REGISTER", "Error al guardar el usuario en Room", ex);
+                                    }
+                                });
+                                auth.signOut();
+                                btnLogin.setEnabled(true);
+                                Toast.makeText(this, "Cuenta creada. Inicia sesión",
+                                        Toast.LENGTH_SHORT).show();
+                                etNombre.setText("");
+                                etPassword.setText("");
+                                etConfirmPassword.setText("");
+                                cambiarModo(false);
+                            })
+                            .addOnFailureListener(err -> {
+                                Log.e("REGISTER", "Error al guardar el perfil", err);
+                                auth.signOut();
+                                btnLogin.setEnabled(true);
+                                mostrarError("Error al guardar el perfil en la nube");
+                            });
+                });
     }
 }
