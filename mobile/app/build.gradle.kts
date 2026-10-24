@@ -1,6 +1,5 @@
 plugins {
     alias(libs.plugins.android.application)
-    alias(libs.plugins.google.services)
 }
 
 android {
@@ -53,7 +52,4 @@ dependencies {
     implementation(libs.datastore.preferences)
     compileOnly(libs.lombok)
     annotationProcessor(libs.lombok)
-    implementation(platform(libs.firebase.bom))
-    implementation(libs.firebase.auth)
-    implementation(libs.firebase.firestore)
 }
