@@ -31,6 +31,9 @@ import com.google.firebase.auth.FirebaseAuthUserCollisionException;
 import com.google.firebase.firestore.FirebaseFirestore;
 import java.util.HashMap;
 import java.util.Map;
+import com.iza.servitech_pro.data.local.AppDatabase;
+import com.iza.servitech_pro.data.local.entity.UsuarioLocal;
+import java.util.concurrent.Executors;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -241,8 +244,16 @@ public class LoginActivity extends AppCompatActivity {
                     FirebaseFirestore.getInstance().collection("usuarios").document(uid)
                             .set(perfil)
                             .addOnSuccessListener(v -> {
-                                // TODO (A7, parte Room): guardar también en Room (UsuarioLocal)
-                                // cuando B1 esté en la rama
+                                // Guarda también en Room (base local). La contraseña NO se guarda.
+                                Executors.newSingleThreadExecutor().execute(() -> {
+                                    try {
+                                        AppDatabase.getInstance(getApplicationContext())
+                                                .usuarioLocalDao()
+                                                .insertar(new UsuarioLocal(uid, email, nombre, null, false));
+                                    } catch (Exception ex) {
+                                        Log.e("REGISTER", "Error al guardar el usuario en Room", ex);
+                                    }
+                                });
                                 auth.signOut();
                                 btnLogin.setEnabled(true);
                                 Toast.makeText(this, "Cuenta creada. Inicia sesión",
