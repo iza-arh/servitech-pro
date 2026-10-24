@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:anroid="http://schemas.android.com/tools"
+    android:background="#FFFFFF"
+    android:theme="@style/Theme.MaterialComponents.Light">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        anroid:gravity="center_horizontal"
+        android:padding="20dp">
+
+        <TextView
+            android:id="@+id/tvDetalleVehiculo"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="24sp"
+            android:textStyle="bold"
+            android:textColor="#000000" />
+
+        <TextView
+            android:id="@+id/tvDetallePlaca"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingTop="12dp"
+            android:textSize="16sp" />
+
+        <TextView
+            android:id="@+id/tvDetalleDescripcion"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingTop="12dp"
+            android:textSize="16sp" />
+
+        <TextView
+            android:id="@+id/tvDetalleEstado"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingTop="12dp"
+            android:textSize="16sp" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnVolverDetalle"
+                style="@style/Widget.Material3.Button.IconButton.Filled"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:layout_marginEnd="16dp"
+                android:contentDescription="Volver"
+                app:icon="@drawable/ic_arrow_left"
+                app:iconSize="25dp"
+                app:iconTint="#1A1A2E"
+                app:backgroundTint="#D0D0D8" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnEditarOrden"
+                style="@style/Widget.Material3.Button.IconButton.Filled"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:layout_marginEnd="16dp"
+                android:contentDescription="Editar orden"
+                app:icon="@drawable/ic_edit_doc"
+                app:iconSize="25dp"
+                app:iconTint="#FFFFFF"
+                app:backgroundTint="#15D8B3" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnEliminarOrden"
+                style="@style/Widget.Material3.Button.IconButton.Filled"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                app:icon="@drawable/ic_trash"
+                android:contentDescription="Eliminar orden"
+                app:iconSize="25dp"
+                app:iconTint="#FFFFFF"
+                app:backgroundTint="#E63946" />
+        </LinearLayout>
+
+    </LinearLayout>
+</ScrollView>

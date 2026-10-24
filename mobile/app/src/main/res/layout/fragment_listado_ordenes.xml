@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:gravity="center"
+    android:padding="16dp"
+    android:background="#FFFFFF"
+    android:theme="@style/Theme.MaterialComponents.Light">
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnOrdenSync"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="16dp"
+            android:text="Sincronizar"
+            android:textColor="#000000"
+            app:icon="@drawable/ic_sync"
+            app:iconTint="#1234F3"
+            app:iconGravity="textStart"
+            app:backgroundTint="#FFFFFF"/>
+
+        <View
+            android:id="@+id/viewStatusDot"
+            android:layout_width="8dp"
+            android:layout_height="8dp"
+            android:layout_marginEnd="6dp"
+            android:background="@drawable/bg_status_dot" />
+
+        <TextView
+            android:id="@+id/tvStatus"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/login_estado_en_linea"
+            android:textColor="#000000"
+            android:textSize="12sp" />
+
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/tvEstadoSync"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingHorizontal="8dp"
+        android:paddingVertical="6dp"
+        android:text="Comprobando sincronización..."
+        android:textColor="#000000"
+        android:textSize="13sp" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="Órdenes de trabajo"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        android:textColor="#000000"
+        android:padding="10dp"
+        android:paddingBottom="12dp" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btnNuevaOrden"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Nueva orden"
+        android:textColor="#FFFFFF"
+        app:backgroundTint="#1234F3"/>
+
+    <TextView
+        android:id="@+id/tvSinOrdenes"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="No hay órdenes de trabajo registradas."
+        android:gravity="center"
+        android:padding="24dp"
+        android:visibility="gone" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rvOrdenes"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:layout_marginTop="12dp" />
+
+</LinearLayout>
