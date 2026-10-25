@@ -8,10 +8,11 @@ import javax.crypto.SecretKey;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
+import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
 
-@Component 
+@Component
 public class JwtUtil {
     @Value("${jwt.secret}")
     private String secret;
@@ -31,6 +32,15 @@ public class JwtUtil {
                 .issuedAt(new Date())
                 .expiration(new Date(System.currentTimeMillis() + expirationMs))
                 .signWith(getKey())
-               /*  */ .compact();
+                /*  */ .compact();
+    }
+
+    // Valida la firma y la expiración; lanza JwtException si el token no sirve
+    public Claims validarYObtenerClaims(String token) {
+        return Jwts.parser()
+                .verifyWith(getKey())
+                .build()
+                .parseSignedClaims(token)
+                .getPayload();
     }
 }
