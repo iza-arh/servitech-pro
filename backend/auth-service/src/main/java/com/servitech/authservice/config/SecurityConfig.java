@@ -1,5 +1,6 @@
 package com.servitech.authservice.config;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -53,15 +54,23 @@ public class SecurityConfig {
                         .requestMatchers("/api/clientes/**").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.DELETE, "/api/ordenes/**").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.PUT, "/api/ordenes/**").hasAnyRole("ADMIN", "TECNICO")
+                        .requestMatchers(HttpMethod.GET, "/api/catalogo/**").hasAnyRole("ADMIN", "TECNICO")
+                        .requestMatchers("/api/catalogo/**").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.GET, "/api/registros/**").authenticated()
+                        .requestMatchers("/api/registros/**").hasAnyRole("ADMIN", "TECNICO")
                         .anyRequest().authenticated())
                 .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);
         return http.build();
     }
 
-    // Usuarios de prueba, solo para desarrollo local
+    // Usuarios de prueba: solo si app.seed-users=true (nunca en producción)
     @Bean
-    CommandLineRunner initUsuarios(UsuarioRepository repo, PasswordEncoder encoder) {
+    CommandLineRunner initUsuarios(UsuarioRepository repo, PasswordEncoder encoder,
+            @Value("${app.seed-users:false}") boolean seed) {
         return args -> {
+            if (!seed) {
+                return;
+            }
             if (repo.findByUsername("admin").isEmpty()) {
                 Usuario admin = new Usuario();
                 admin.setUsername("admin");

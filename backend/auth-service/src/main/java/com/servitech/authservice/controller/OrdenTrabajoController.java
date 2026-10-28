@@ -146,6 +146,8 @@ public class OrdenTrabajoController {
         o.setAnio(req.getAnio());
         o.setDescripcion(req.getDescripcion().trim());
         o.setEstado(estado);
+        o.setTipoServicioId(req.getTipoServicioId());
+        o.setCategoriaEquipoId(req.getCategoriaEquipoId());
         o.setUpdatedAt(Instant.now());
         return ResponseEntity.ok(repo.save(o));
     }

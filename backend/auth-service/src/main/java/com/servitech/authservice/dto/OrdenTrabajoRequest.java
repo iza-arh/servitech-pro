@@ -10,6 +10,8 @@ public class OrdenTrabajoRequest {
     private Integer anio;
     private String descripcion;
     private String estado;
+    private String tipoServicioId;
+    private String categoriaEquipoId;
 
     public String getClienteId() {
         return clienteId;
@@ -73,5 +75,21 @@ public class OrdenTrabajoRequest {
 
     public void setEstado(String estado) {
         this.estado = estado;
+    }
+
+    public String getTipoServicioId() {
+        return tipoServicioId;
+    }
+
+    public void setTipoServicioId(String tipoServicioId) {
+        this.tipoServicioId = tipoServicioId;
+    }
+
+    public String getCategoriaEquipoId() {
+        return categoriaEquipoId;
+    }
+
+    public void setCategoriaEquipoId(String categoriaEquipoId) {
+        this.categoriaEquipoId = categoriaEquipoId;
     }
 }

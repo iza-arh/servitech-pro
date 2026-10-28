@@ -23,6 +23,12 @@ public class OrdenTrabajo {
 
     private Long tecnicoId; // null = sin asignar
 
+    @Column(length = 36)
+    private String tipoServicioId; // CatalogoItem TIPO_SERVICIO (opcional)
+
+    @Column(length = 36)
+    private String categoriaEquipoId; // CatalogoItem CATEGORIA_EQUIPO (opcional)
+
     // Datos del vehículo, dentro de la orden
     @Column(nullable = false)
     private String placa;
@@ -165,5 +171,21 @@ public class OrdenTrabajo {
 
     public void setDeletedAt(Instant deletedAt) {
         this.deletedAt = deletedAt;
+    }
+
+    public String getTipoServicioId() {
+        return tipoServicioId;
+    }
+
+    public void setTipoServicioId(String tipoServicioId) {
+        this.tipoServicioId = tipoServicioId;
+    }
+
+    public String getCategoriaEquipoId() {
+        return categoriaEquipoId;
+    }
+
+    public void setCategoriaEquipoId(String categoriaEquipoId) {
+        this.categoriaEquipoId = categoriaEquipoId;
     }
 }
