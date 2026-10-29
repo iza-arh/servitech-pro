@@ -40,6 +40,15 @@ public class LoginActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        // Si ya hay una sesión guardada, se salta el login (funciona sin conexión)
+        String tokenGuardado = SecurePrefs.leerToken(this);
+        String rolGuardado = SecurePrefs.leerRol(this);
+        if (tokenGuardado != null && rolGuardado != null) {
+            irSegunRol(rolGuardado);
+            return;
+        }
+
         // Carga el layout correcto del login
         setContentView(R.layout.activity_login);
 
