@@ -9,7 +9,6 @@ import com.iza.servitech_pro.R;
 import com.iza.servitech_pro.data.local.AppDatabase;
 import com.iza.servitech_pro.data.repository.SyncRepository;
 import com.iza.servitech_pro.data.sync.SyncManager;
-import com.iza.servitech_pro.data.sync.SyncSmokeTest;
 
 public class DashboardActivity extends AppCompatActivity {
 
@@ -20,7 +19,6 @@ public class DashboardActivity extends AppCompatActivity {
         // Prueba temporal: abre la BD para que aparezca en el Database Inspector
         new Thread(() -> AppDatabase.getInstance(this).clienteDao().observarActivos()).start();
         SyncManager.getInstance(this).iniciar();   // se queda: activa la sincronización automática
-        SyncSmokeTest.ejecutar(this);              // TEMPORAL: borrar después de probar
         new SyncRepository(this).descargar((ok, mensaje) ->
                 Log.d("SYNC", "ok=" + ok + " " + mensaje));
     }
