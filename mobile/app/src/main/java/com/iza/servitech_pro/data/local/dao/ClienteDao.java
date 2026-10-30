@@ -35,4 +35,7 @@ public interface ClienteDao {
 
     @Query("SELECT MAX(updatedAt) FROM clientes")
     String maxUpdatedAt();
+
+    @Query("SELECT * FROM clientes WHERE deletedAt IS NULL LIMIT 1")
+    ClienteEntity primero();
 }
