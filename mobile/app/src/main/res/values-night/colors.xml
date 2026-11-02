@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Paleta Figma (oscuro) -->
+    <color name="sv_primary">#6C7AE0</color>
+    <color name="sv_on_primary">#FFFFFF</color>
+    <color name="sv_secondary">#5A9FD4</color>
+    <color name="sv_accent">#6BC4DB</color>
+    <color name="sv_success">#2EE6C0</color>
+    <color name="sv_status_completed">#2EE6C0</color>
+    <color name="sv_status_progress">#D9A62E</color>
+    <color name="sv_status_pending">#EF5350</color>
+    <color name="sv_background">#121212</color>
+    <color name="sv_surface">#1E1E2E</color>
+    <color name="sv_text_primary">#F5F5F5</color>
+    <color name="sv_text_secondary">#B0B0C0</color>
+    <color name="sv_border">#33334A</color>
+</resources>

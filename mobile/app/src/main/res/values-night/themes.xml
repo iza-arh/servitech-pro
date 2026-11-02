@@ -1,7 +1,20 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
-    <!-- Base application theme. -->
     <style name="Base.Theme.Servitech_Pro" parent="Theme.Material3.DayNight.NoActionBar">
-        <!-- Customize your dark theme here. -->
-        <!-- <item name="colorPrimary">@color/my_dark_primary</item> -->
+        <item name="colorPrimary">@color/sv_primary</item>
+        <item name="colorOnPrimary">@color/sv_on_primary</item>
+        <item name="colorSecondary">@color/sv_secondary</item>
+        <item name="colorOnSecondary">@color/sv_on_primary</item>
+        <item name="colorTertiary">@color/sv_accent</item>
+        <item name="colorSurface">@color/sv_surface</item>
+        <item name="colorOnSurface">@color/sv_text_primary</item>
+        <item name="colorOnSurfaceVariant">@color/sv_text_secondary</item>
+        <item name="colorOutline">@color/sv_border</item>
+        <item name="colorError">@color/sv_status_pending</item>
+        <item name="android:colorBackground">@color/sv_background</item>
+        <item name="colorOnBackground">@color/sv_text_primary</item>
+        <item name="android:windowBackground">@color/sv_background</item>
+        <item name="android:statusBarColor">@color/sv_background</item>
+        <item name="android:navigationBarColor">@color/sv_background</item>
+        <item name="android:windowLightStatusBar">false</item>
     </style>
 </resources>

@@ -10,4 +10,15 @@
     <string name="login_modo_registro">Registrarse</string>
     <string name="login_boton_registro">Crear cuenta</string>
     <string name="login_hint_confirmar">Confirmar contraseña</string>
+    <string name="panel_titulo">Panel</string>
+    <string name="panel_pendientes">Pendientes</string>
+    <string name="panel_en_proceso">En proceso</string>
+    <string name="panel_completadas">Completadas</string>
+    <string name="sync_sincronizado">Sincronizado</string>
+    <string name="sync_sincronizando">Sincronizando…</string>
+    <string name="sync_pendientes">%d pendientes</string>
+    <string name="sync_sesion_expirada">Sesión expirada</string>
+    <string name="sync_error">Error de sincronización</string>
+    <string name="red_en_linea">En línea</string>
+    <string name="red_sin_conexion">Sin conexión</string>
 </resources>

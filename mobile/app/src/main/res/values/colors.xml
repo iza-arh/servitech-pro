@@ -1,15 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="login_fondo">#FFFFFF</color>
-    <color name="login_texto_titulo">#1E1E1E</color>
-    <color name="login_acento">#3F51B5</color>
-    <color name="login_estado_online">#3BB5C1</color>
-    <color name="login_borde_campo">#CCCCCC</color>
-    <color name="login_icono">#666666</color>
-    <color name="login_error">#E53935</color>
-    <color name="login_boton_texto">#FFFFFF</color>
-    <color name="login_toggle_fondo">#3F7CB0</color>
-    <color name="login_toggle_seleccionado_fondo">#FFFFFF</color>
-    <color name="login_toggle_seleccionado_texto">#1E1E1E</color>
-    <color name="login_toggle_texto">#FFFFFF</color>
+    <!-- Paleta Figma (claro) -->
+    <color name="sv_primary">#2F39A9</color>
+    <color name="sv_on_primary">#FFFFFF</color>
+    <color name="sv_secondary">#2E6FA0</color>
+    <color name="sv_accent">#49A4BB</color>
+    <color name="sv_success">#15D8B3</color>
+    <color name="sv_status_completed">#15D8B3</color>
+    <color name="sv_status_progress">#FFC107</color>
+    <color name="sv_status_pending">#E63946</color>
+    <color name="sv_background">#F7F8FA</color>
+    <color name="sv_surface">#FFFFFF</color>
+    <color name="sv_text_primary">#1A1A2E</color>
+    <color name="sv_text_secondary">#5C5C70</color>
+    <color name="sv_border">#DDE0E8</color>
+
+    <!-- Colores del login: ahora salen de la paleta (así también cambian en modo oscuro) -->
+    <color name="login_fondo">@color/sv_surface</color>
+    <color name="login_texto_titulo">@color/sv_text_primary</color>
+    <color name="login_acento">@color/sv_primary</color>
+    <color name="login_estado_online">@color/sv_success</color>
+    <color name="login_borde_campo">@color/sv_border</color>
+    <color name="login_icono">@color/sv_text_secondary</color>
+    <color name="login_error">@color/sv_status_pending</color>
+    <color name="login_boton_texto">@color/sv_on_primary</color>
+    <color name="login_toggle_fondo">@color/sv_secondary</color>
+    <color name="login_toggle_seleccionado_fondo">@color/sv_surface</color>
+    <color name="login_toggle_seleccionado_texto">@color/sv_text_primary</color>
+    <color name="login_toggle_texto">@color/sv_on_primary</color>
 </resources>
