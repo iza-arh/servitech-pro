@@ -9,7 +9,8 @@ import com.iza.servitech_pro.R;
 import com.iza.servitech_pro.data.local.AppDatabase;
 import com.iza.servitech_pro.data.sync.SyncManager;
 import com.iza.servitech_pro.ui.common.SyncBarView;
-
+import android.content.Intent;
+import com.iza.servitech_pro.ui.ordenes.OrdenesActivity;
 public class DashboardActivity extends AppCompatActivity {
 
     @Override
@@ -34,5 +35,15 @@ public class DashboardActivity extends AppCompatActivity {
                 n -> tvEnProceso.setText(String.valueOf(n == null ? 0 : n)));
         db.ordenDao().contarPorEstado("COMPLETADA").observe(this,
                 n -> tvCompletadas.setText(String.valueOf(n == null ? 0 : n)));
+        findViewById(R.id.cardPendientes).setOnClickListener(v -> abrirOrdenes("PENDIENTE"));
+        findViewById(R.id.cardEnProceso).setOnClickListener(v -> abrirOrdenes("EN_PROCESO"));
+        findViewById(R.id.cardCompletadas).setOnClickListener(v -> abrirOrdenes("COMPLETADA"));
+        findViewById(R.id.btnVerTodas).setOnClickListener(v -> abrirOrdenes(""));
+    }
+
+    private void abrirOrdenes(String estado) {
+        Intent i = new Intent(this, OrdenesActivity.class);
+        i.putExtra(OrdenesActivity.EXTRA_ESTADO, estado);
+        startActivity(i);
     }
 }

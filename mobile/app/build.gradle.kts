@@ -52,4 +52,5 @@ dependencies {
     implementation(libs.datastore.preferences)
     compileOnly(libs.lombok)
     annotationProcessor(libs.lombok)
+    implementation("androidx.recyclerview:recyclerview:1.4.0")
 }

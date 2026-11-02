@@ -28,4 +28,5 @@
     <color name="login_toggle_seleccionado_fondo">@color/sv_surface</color>
     <color name="login_toggle_seleccionado_texto">@color/sv_text_primary</color>
     <color name="login_toggle_texto">@color/sv_on_primary</color>
+    <color name="sv_on_chip_dark">#1A1A2E</color>
 </resources>

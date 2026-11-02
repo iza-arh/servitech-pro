@@ -36,4 +36,15 @@ public class FechaUtil {
         }
         return s.substring(0, punto + 1) + frac + "Z";
     }
+
+    // Fecha para mostrar en pantalla: dd/MM/yyyy
+    public static String mostrar(String iso, long localTs) {
+        if (iso != null && iso.length() >= 10) {
+            return iso.substring(8, 10) + "/" + iso.substring(5, 7) + "/" + iso.substring(0, 4);
+        }
+        if (localTs > 0) {
+            return new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()).format(new Date(localTs));
+        }
+        return "";
+    }
 }

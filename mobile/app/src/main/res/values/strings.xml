@@ -21,4 +21,14 @@
     <string name="sync_error">Error de sincronización</string>
     <string name="red_en_linea">En línea</string>
     <string name="red_sin_conexion">Sin conexión</string>
+    <string name="ordenes_titulo">Órdenes de Trabajo</string>
+    <string name="ordenes_buscar">Buscar por cliente, placa o servicio</string>
+    <string name="ordenes_vacio">No hay órdenes para mostrar</string>
+    <string name="filtro_todas">Todas</string>
+    <string name="orden_cliente">Cliente</string>
+    <string name="orden_sin_cliente">Cliente sin nombre</string>
+    <string name="estado_pendiente">Pendiente</string>
+    <string name="estado_en_proceso">En proceso</string>
+    <string name="estado_completada">Completada</string>
+    <string name="panel_ver_todas">Ver todas las órdenes</string>
 </resources>
