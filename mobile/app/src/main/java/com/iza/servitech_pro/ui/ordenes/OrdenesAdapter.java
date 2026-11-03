@@ -42,6 +42,16 @@ public class OrdenesAdapter extends ListAdapter<OrdenResumen, OrdenesAdapter.VH>
         }
     };
 
+    public interface OnOrdenClick {
+        void alTocar(OrdenResumen orden);
+    }
+
+    private OnOrdenClick listener;
+
+    public void setOnOrdenClick(OnOrdenClick l) {
+        this.listener = l;
+    }
+
     public OrdenesAdapter() {
         super(DIFF);
     }
@@ -107,5 +117,10 @@ public class OrdenesAdapter extends ListAdapter<OrdenResumen, OrdenesAdapter.VH>
         h.tvEstado.setBackgroundTintList(ColorStateList.valueOf(ContextCompat.getColor(c, fondo)));
 
         h.icPendiente.setVisibility(o.isSynced ? View.GONE : View.VISIBLE);
+        h.itemView.setOnClickListener(v -> {
+            if (listener != null) {
+                listener.alTocar(o);
+            }
+        });
     }
 }

@@ -9,7 +9,7 @@ import androidx.room.Query;
 import com.iza.servitech_pro.data.local.entity.RegistroEntity;
 
 import java.util.List;
-
+import com.iza.servitech_pro.data.local.model.RepuestoUsado;
 @Dao
 public interface RegistroDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
@@ -38,4 +38,11 @@ public interface RegistroDao {
 
     @Query("SELECT MAX(updatedAt) FROM registros_orden")
     String maxUpdatedAt();
+
+    @Query("SELECT r.id AS id, i.nombre AS nombre, r.cantidad AS cantidad "
+            + "FROM registros_orden r "
+            + "LEFT JOIN catalogo_items i ON i.id = r.catalogoItemId "
+            + "WHERE r.ordenId = :ordenId AND r.tipo = 'REPUESTO' AND r.deletedAt IS NULL "
+            + "ORDER BY r.localTs, r.updatedAt")
+    LiveData<List<RepuestoUsado>> observarRepuestos(String ordenId);
 }

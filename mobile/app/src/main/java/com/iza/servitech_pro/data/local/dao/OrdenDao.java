@@ -10,6 +10,7 @@ import com.iza.servitech_pro.data.local.entity.OrdenEntity;
 
 import java.util.List;
 import com.iza.servitech_pro.data.local.model.OrdenResumen;
+import com.iza.servitech_pro.data.local.model.OrdenDetalle;
 @Dao
 public interface OrdenDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
@@ -65,4 +66,16 @@ public interface OrdenDao {
             + "OR s.nombre LIKE '%' || :q || '%') "
             + "ORDER BY o.localTs DESC, o.updatedAt DESC")
     LiveData<List<OrdenResumen>> observarResumen(String estado, String q);
+
+    @Query("SELECT o.id AS id, o.placa AS placa, o.marca AS marca, o.modelo AS modelo, "
+            + "o.anio AS anio, o.descripcion AS descripcion, o.estado AS estado, "
+            + "c.nombre AS clienteNombre, c.telefono AS clienteTelefono, "
+            + "c.direccion AS clienteDireccion, "
+            + "s.nombre AS servicioNombre, e.nombre AS categoriaNombre "
+            + "FROM ordenes o "
+            + "LEFT JOIN clientes c ON c.id = o.clienteId "
+            + "LEFT JOIN catalogo_items s ON s.id = o.tipoServicioId "
+            + "LEFT JOIN catalogo_items e ON e.id = o.categoriaEquipoId "
+            + "WHERE o.id = :id")
+    LiveData<OrdenDetalle> observarDetalle(String id);
 }

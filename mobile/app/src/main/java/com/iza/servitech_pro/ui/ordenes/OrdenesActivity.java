@@ -18,6 +18,7 @@ import com.iza.servitech_pro.data.local.model.OrdenResumen;
 import com.iza.servitech_pro.ui.common.SyncBarView;
 
 import java.util.List;
+import android.content.Intent;
 
 public class OrdenesActivity extends AppCompatActivity {
 
@@ -44,6 +45,11 @@ public class OrdenesActivity extends AppCompatActivity {
         rv.setLayoutManager(new LinearLayoutManager(this));
         adapter = new OrdenesAdapter();
         rv.setAdapter(adapter);
+        adapter.setOnOrdenClick(orden -> {
+            Intent i = new Intent(this, OrdenDetalleActivity.class);
+            i.putExtra(OrdenDetalleActivity.EXTRA_ID, orden.id);
+            startActivity(i);
+        });
 
         // Filtro inicial que viene del Panel
         String inicial = getIntent().getStringExtra(EXTRA_ESTADO);

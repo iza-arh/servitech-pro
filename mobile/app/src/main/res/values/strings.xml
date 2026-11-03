@@ -31,4 +31,19 @@
     <string name="estado_en_proceso">En proceso</string>
     <string name="estado_completada">Completada</string>
     <string name="panel_ver_todas">Ver todas las órdenes</string>
+    <string name="detalle_orden_titulo">Orden %s</string>
+    <string name="detalle_vehiculo">Vehículo y servicio</string>
+    <string name="detalle_placa">Placa: %s</string>
+    <string name="detalle_servicio">Servicio: %s</string>
+    <string name="detalle_equipo">Equipo: %s</string>
+    <string name="detalle_diagnostico">Diagnóstico</string>
+    <string name="detalle_repuestos">Repuestos utilizados</string>
+    <string name="detalle_sin_repuestos">Sin repuestos registrados</string>
+    <string name="detalle_sin_dato">—</string>
+    <string name="btn_foto">Foto</string>
+    <string name="btn_bitacora">Bitácora</string>
+    <string name="btn_firma">Firma</string>
+    <string name="btn_editar_orden">Editar orden</string>
+    <string name="proximamente">Disponible en el siguiente paso</string>
+    <string name="btn_atras">Volver</string>
 </resources>
