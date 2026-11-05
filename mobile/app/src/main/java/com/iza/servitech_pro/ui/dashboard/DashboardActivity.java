@@ -11,6 +11,8 @@ import com.iza.servitech_pro.data.sync.SyncManager;
 import com.iza.servitech_pro.ui.common.SyncBarView;
 import android.content.Intent;
 import com.iza.servitech_pro.ui.ordenes.OrdenesActivity;
+import androidx.appcompat.widget.PopupMenu;
+import com.iza.servitech_pro.ui.taller.TallerActivity;
 public class DashboardActivity extends AppCompatActivity {
 
     @Override
@@ -39,6 +41,18 @@ public class DashboardActivity extends AppCompatActivity {
         findViewById(R.id.cardEnProceso).setOnClickListener(v -> abrirOrdenes("EN_PROCESO"));
         findViewById(R.id.cardCompletadas).setOnClickListener(v -> abrirOrdenes("COMPLETADA"));
         findViewById(R.id.btnVerTodas).setOnClickListener(v -> abrirOrdenes(""));
+        findViewById(R.id.btnMenu).setOnClickListener(v -> {
+            PopupMenu menu = new PopupMenu(this, v);
+            menu.getMenu().add(0, 1, 0, R.string.menu_ubicacion);
+            menu.setOnMenuItemClickListener(item -> {
+                if (item.getItemId() == 1) {
+                    startActivity(new Intent(this, TallerActivity.class));
+                    return true;
+                }
+                return false;
+            });
+            menu.show();
+        });
     }
 
     private void abrirOrdenes(String estado) {

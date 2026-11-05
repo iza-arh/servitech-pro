@@ -46,4 +46,10 @@
     <string name="btn_editar_orden">Editar orden</string>
     <string name="proximamente">Disponible en el siguiente paso</string>
     <string name="btn_atras">Volver</string>
+    <string name="taller_titulo">Ubicación del taller</string>
+    <string name="taller_como_llegar">Cómo llegar</string>
+    <string name="taller_mapa_offline">Mapa no disponible sin conexión</string>
+    <string name="taller_sin_app">No se encontró una aplicación de mapas</string>
+    <string name="menu_ubicacion">Ubicación del taller</string>
+    <string name="menu_mas">Más opciones</string>
 </resources>
