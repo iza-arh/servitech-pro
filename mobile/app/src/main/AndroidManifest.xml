@@ -45,6 +45,11 @@
             android:name=".MainActivity"
             android:exported="false">
         </activity>
+
+        <activity
+            android:name=".ui.bitacora.BitacoraActivity"
+            android:exported="false"
+            android:windowSoftInputMode="adjustResize" />
     </application>
 
 </manifest>

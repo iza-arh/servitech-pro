@@ -52,4 +52,11 @@
     <string name="taller_sin_app">No se encontró una aplicación de mapas</string>
     <string name="menu_ubicacion">Ubicación del taller</string>
     <string name="menu_mas">Más opciones</string>
+    <string name="bitacora_titulo">Bitácora</string>
+    <string name="bitacora_orden">Orden: %s</string>
+    <string name="bitacora_agregar">AGREGAR NOTA DE AVANCE</string>
+    <string name="bitacora_hint">Escribe el avance técnico…</string>
+    <string name="bitacora_vacia">Aún no hay notas de avance</string>
+    <string name="bitacora_error_vacia">Escribe una nota antes de enviar</string>
+    <string name="bitacora_enviar">Enviar nota</string>
 </resources>

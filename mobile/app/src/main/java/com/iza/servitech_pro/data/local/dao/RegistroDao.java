@@ -45,4 +45,7 @@ public interface RegistroDao {
             + "WHERE r.ordenId = :ordenId AND r.tipo = 'REPUESTO' AND r.deletedAt IS NULL "
             + "ORDER BY r.localTs, r.updatedAt")
     LiveData<List<RepuestoUsado>> observarRepuestos(String ordenId);
+
+    @Query("SELECT * FROM registros_orden WHERE deletedAt IS NULL AND ordenId = :ordenId AND tipo = 'BITACORA'")
+    LiveData<List<RegistroEntity>> observarBitacoras(String ordenId);
 }

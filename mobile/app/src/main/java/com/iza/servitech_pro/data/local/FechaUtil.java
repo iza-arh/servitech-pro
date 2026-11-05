@@ -1,5 +1,6 @@
 package com.iza.servitech_pro.data.local;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
@@ -46,5 +47,26 @@ public class FechaUtil {
             return new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()).format(new Date(localTs));
         }
         return "";
+    }
+
+    // Momento de un registro en milisegundos (fecha del servidor, o la local si aún no se envió)
+    public static long aMillis(String iso, long localTs) {
+        if (iso != null && iso.length() >= 19) {
+            try {
+                SimpleDateFormat f = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss", Locale.US);
+                f.setTimeZone(TimeZone.getTimeZone("UTC"));
+                Date d = f.parse(iso.substring(0, 19));
+                if (d != null) {
+                    return d.getTime();
+                }
+            } catch (ParseException ignored) {
+            }
+        }
+        return localTs;
+    }
+
+    // "08:30 AM · 02/11/2026" en la hora del teléfono
+    public static String horaYFecha(long millis) {
+        return new SimpleDateFormat("hh:mm a · dd/MM/yyyy", Locale.getDefault()).format(new Date(millis));
     }
 }

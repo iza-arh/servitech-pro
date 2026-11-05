@@ -17,7 +17,8 @@ import com.iza.servitech_pro.ui.common.EstadoChip;
 import com.iza.servitech_pro.ui.common.SyncBarView;
 
 import java.util.List;
-
+import android.content.Intent;
+import com.iza.servitech_pro.ui.bitacora.BitacoraActivity;
 public class OrdenDetalleActivity extends AppCompatActivity {
 
     public static final String EXTRA_ID = "ordenId";
@@ -58,7 +59,11 @@ public class OrdenDetalleActivity extends AppCompatActivity {
         View.OnClickListener pronto = v ->
                 Toast.makeText(this, R.string.proximamente, Toast.LENGTH_SHORT).show();
         findViewById(R.id.btnFoto).setOnClickListener(pronto);
-        findViewById(R.id.btnBitacora).setOnClickListener(pronto);
+        findViewById(R.id.btnBitacora).setOnClickListener(v -> {
+            Intent i = new Intent(this, BitacoraActivity.class);
+            i.putExtra(BitacoraActivity.EXTRA_ID, ordenId);
+            startActivity(i);
+        });
         findViewById(R.id.btnFirma).setOnClickListener(pronto);
         findViewById(R.id.btnEditar).setOnClickListener(pronto);
 
