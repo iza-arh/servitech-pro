@@ -10,6 +10,7 @@ import com.iza.servitech_pro.data.local.entity.RegistroEntity;
 
 import java.util.List;
 import com.iza.servitech_pro.data.local.model.RepuestoUsado;
+import com.iza.servitech_pro.data.local.model.FotoItem;
 @Dao
 public interface RegistroDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
@@ -48,4 +49,9 @@ public interface RegistroDao {
 
     @Query("SELECT * FROM registros_orden WHERE deletedAt IS NULL AND ordenId = :ordenId AND tipo = 'BITACORA'")
     LiveData<List<RegistroEntity>> observarBitacoras(String ordenId);
+
+    @Query("SELECT id, texto, updatedAt, localTs, isSynced FROM registros_orden "
+            + "WHERE deletedAt IS NULL AND ordenId = :ordenId AND tipo = 'FOTO' "
+            + "ORDER BY localTs, updatedAt")
+    LiveData<List<FotoItem>> observarFotos(String ordenId);
 }

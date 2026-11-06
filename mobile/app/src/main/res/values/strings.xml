@@ -59,4 +59,25 @@
     <string name="bitacora_vacia">Aún no hay notas de avance</string>
     <string name="bitacora_error_vacia">Escribe una nota antes de enviar</string>
     <string name="bitacora_enviar">Enviar nota</string>
+    <string name="fotos_titulo">Evidencias</string>
+    <string name="fotos_tomar">Tomar foto</string>
+    <string name="fotos_galeria">Abrir galería</string>
+    <string name="fotos_galeria_titulo">Galería de evidencias fotográficas</string>
+    <string name="fotos_vacia">Aún no hay fotos de evidencia</string>
+    <string name="fotos_ayuda">Toca una miniatura para abrir la vista previa en pantalla completa.</string>
+    <string name="fotos_error">No se pudo procesar la imagen</string>
+    <string name="fotos_desc_titulo">Descripción de la foto</string>
+    <string name="fotos_desc_hint">Descripción (opcional)</string>
+    <string name="fotos_guardar">Guardar</string>
+    <string name="fotos_omitir">Omitir</string>
+    <string name="fotos_eliminar_titulo">Eliminar foto</string>
+    <string name="fotos_eliminar_msg">¿Seguro que quieres eliminar esta foto? Esta acción no se puede deshacer.</string>
+    <string name="fotos_eliminar">Eliminar</string>
+    <string name="fotos_cancelar">Cancelar</string>
+    <string name="fotos_cerrar">Cerrar</string>
+    <string name="fotos_procesando">Procesando imagen…</string>
+    <plurals name="fotos_cantidad">
+        <item quantity="one">%d foto</item>
+        <item quantity="other">%d fotos</item>
+    </plurals>
 </resources>
