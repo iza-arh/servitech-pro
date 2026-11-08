@@ -80,4 +80,10 @@
         <item quantity="one">%d foto</item>
         <item quantity="other">%d fotos</item>
     </plurals>
+    <string name="bitacora_bloqueada">Orden completada: la bitácora está bloqueada</string>
+    <string name="bitacora_editando">Editando nota</string>
+    <string name="bitacora_cancelar">Cancelar</string>
+    <string name="bitacora_editar">Editar nota</string>
+    <string name="bitacora_eliminar">Eliminar nota</string>
+    <string name="bitacora_eliminar_msg">¿Seguro que quieres eliminar esta nota? Esta acción no se puede deshacer.</string>
 </resources>

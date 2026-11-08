@@ -23,4 +23,6 @@ public class RegistroEntity {
 
     public boolean isSynced;
     public long localTs;
+
+    public String creadoEn;        // momento en que se escribió (lo fija el teléfono)
 }

@@ -7,4 +7,5 @@ public class RegistroRequest {
     public String catalogoItemId;
     public Integer cantidad;
     public String datos;
+    public String creadoEn;
 }

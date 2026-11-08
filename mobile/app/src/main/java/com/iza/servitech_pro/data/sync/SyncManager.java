@@ -331,6 +331,7 @@ public class SyncManager {
                     r.catalogoItemId = g.catalogoItemId;
                     r.cantidad = g.cantidad;
                     r.datos = g.datos;
+                    r.creadoEn = g.creadoEn;
                     it.registro = r;
                 }
                 break;
@@ -453,6 +454,7 @@ public class SyncManager {
                 if (g.id == null || pend.contains(g.id)) continue;
                 g.updatedAt = FechaUtil.normalizar(g.updatedAt);
                 g.deletedAt = FechaUtil.normalizar(g.deletedAt);
+                g.creadoEn = FechaUtil.normalizar(g.creadoEn);
                 g.isSynced = true;
                 g.localTs = 0;
                 aplicar.add(g);

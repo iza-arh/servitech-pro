@@ -109,6 +109,9 @@ public class LocalStore {
                     return "La orden ya tiene firma";
                 }
             }
+            if (r.creadoEn == null) {
+                r.creadoEn = (r.updatedAt != null) ? r.updatedAt : FechaUtil.ahora();
+            }
             r.isSynced = false;
             r.localTs = System.currentTimeMillis();
             db.registroDao().upsert(r);

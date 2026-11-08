@@ -38,6 +38,8 @@ public class SyncDto {
     public static class RegistroReq {
         public String ordenId, tipo, texto, catalogoItemId, datos;
         public Integer cantidad;
+
+        public String creadoEn;
     }
 
     public static class Result {

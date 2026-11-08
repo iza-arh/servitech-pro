@@ -1,77 +1,98 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-xmlns:app="http://schemas.android.com/apk/res-auto"
-android:layout_width="match_parent"
-android:layout_height="wrap_content"
-android:orientation="horizontal">
-
-<FrameLayout
-    android:layout_width="20dp"
-    android:layout_height="match_parent">
-
-    <View
-        android:layout_width="2dp"
-        android:layout_height="match_parent"
-        android:layout_gravity="center_horizontal"
-        android:background="@color/sv_border" />
-
-    <View
-        android:layout_width="10dp"
-        android:layout_height="10dp"
-        android:layout_gravity="top|center_horizontal"
-        android:layout_marginTop="18dp"
-        android:background="@drawable/bg_dot"
-        android:backgroundTint="@color/sv_primary" />
-</FrameLayout>
-
-<com.google.android.material.card.MaterialCardView
-    android:layout_width="0dp"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginStart="8dp"
-    android:layout_marginBottom="12dp"
-    android:layout_weight="1"
-    app:cardBackgroundColor="@color/sv_surface"
-    app:cardCornerRadius="12dp"
-    app:cardElevation="2dp"
-    app:strokeWidth="0dp">
+    android:orientation="horizontal">
 
-    <LinearLayout
-        android:layout_width="match_parent"
+    <FrameLayout
+        android:layout_width="20dp"
+        android:layout_height="match_parent">
+
+        <View
+            android:layout_width="2dp"
+            android:layout_height="match_parent"
+            android:layout_gravity="center_horizontal"
+            android:background="@color/sv_border" />
+
+        <View
+            android:layout_width="10dp"
+            android:layout_height="10dp"
+            android:layout_gravity="top|center_horizontal"
+            android:layout_marginTop="18dp"
+            android:background="@drawable/bg_dot"
+            android:backgroundTint="@color/sv_primary" />
+    </FrameLayout>
+
+    <com.google.android.material.card.MaterialCardView
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:padding="14dp">
+        android:layout_marginStart="8dp"
+        android:layout_marginBottom="12dp"
+        android:layout_weight="1"
+        app:cardBackgroundColor="@color/sv_surface"
+        app:cardCornerRadius="12dp"
+        app:cardElevation="2dp"
+        app:strokeWidth="0dp">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="center_vertical"
-            android:orientation="horizontal">
+            android:orientation="vertical"
+            android:padding="14dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/tvHora"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:textColor="@color/sv_text_secondary"
+                    android:textSize="11sp" />
+
+                <ImageView
+                    android:id="@+id/icPendiente"
+                    android:layout_width="14dp"
+                    android:layout_height="14dp"
+                    android:layout_marginEnd="6dp"
+                    android:importantForAccessibility="no"
+                    android:src="@drawable/ic_sync"
+                    android:visibility="gone"
+                    app:tint="@color/sv_text_secondary" />
+
+                <ImageView
+                    android:id="@+id/btnEditar"
+                    android:layout_width="28dp"
+                    android:layout_height="28dp"
+                    android:background="?attr/selectableItemBackgroundBorderless"
+                    android:contentDescription="@string/bitacora_editar"
+                    android:padding="6dp"
+                    android:src="@drawable/ic_edit"
+                    app:tint="@color/sv_text_secondary" />
+
+                <ImageView
+                    android:id="@+id/btnEliminar"
+                    android:layout_width="28dp"
+                    android:layout_height="28dp"
+                    android:background="?attr/selectableItemBackgroundBorderless"
+                    android:contentDescription="@string/bitacora_eliminar"
+                    android:padding="6dp"
+                    android:src="@drawable/ic_delete"
+                    app:tint="@color/sv_status_pending" />
+            </LinearLayout>
 
             <TextView
-                android:id="@+id/tvHora"
-                android:layout_width="0dp"
+                android:id="@+id/tvTexto"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:textColor="@color/sv_text_secondary"
-                android:textSize="11sp" />
-
-            <ImageView
-                android:id="@+id/icPendiente"
-                android:layout_width="14dp"
-                android:layout_height="14dp"
-                android:importantForAccessibility="no"
-                android:src="@drawable/ic_sync"
-                android:tint="@color/sv_text_secondary"
-                android:visibility="gone" />
+                android:layout_marginTop="6dp"
+                android:textColor="@color/sv_text_primary"
+                android:textSize="14sp" />
         </LinearLayout>
-
-        <TextView
-            android:id="@+id/tvTexto"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="6dp"
-            android:textColor="@color/sv_text_primary"
-            android:textSize="14sp" />
-    </LinearLayout>
-</com.google.android.material.card.MaterialCardView>
+    </com.google.android.material.card.MaterialCardView>
 </LinearLayout>

@@ -39,4 +39,6 @@ public class RegistroOrden {
     public Instant updatedAt; // lo asigna el servidor
 
     public Instant deletedAt; // borrado lógico
+
+    public Instant creadoEn; // cuándo se escribió (lo envía el teléfono)
 }

@@ -39,6 +39,7 @@ import com.servitech.authservice.repository.UsuarioRepository;
 public class RegistroOrdenController {
 
     private static final int MAX_DATOS = 4_000_000; // ~3 MB de imagen en base64
+    private static final String MSG_BLOQUEADA = "La bitácora está bloqueada: la orden está completada";
 
     private final RegistroOrdenRepository repo;
     private final OrdenTrabajoRepository ordenRepo;
@@ -78,6 +79,25 @@ public class RegistroOrdenController {
         }
     }
 
+    private boolean completada(OrdenTrabajo o) {
+        return "COMPLETADA".equals(String.valueOf(o.getEstado()));
+    }
+
+    // Fecha de creación enviada por el teléfono; si falta, es inválida o está en el
+    // futuro, se usa la actual
+    private Instant creacion(String s) {
+        Instant ahora = Instant.now();
+        if (s == null || s.isBlank()) {
+            return ahora;
+        }
+        try {
+            Instant t = Instant.parse(s);
+            return t.isAfter(ahora.plusSeconds(300)) ? ahora : t;
+        } catch (DateTimeParseException e) {
+            return ahora;
+        }
+    }
+
     @GetMapping
     public ResponseEntity<?> listar(@RequestParam(required = false) String since, Authentication auth) {
         Usuario u = usuarioActual(auth);
@@ -101,6 +121,17 @@ public class RegistroOrdenController {
     @PutMapping("/{id}")
     public ResponseEntity<?> guardar(@PathVariable String id, @RequestBody RegistroRequest req,
             Authentication auth) {
+        return guardarInterno(id, req, auth, true);
+    }
+
+    // La sincronización no aplica el bloqueo: el orden dentro de un lote podría
+    // completar la orden antes
+    public ResponseEntity<?> guardarDesdeSync(String id, RegistroRequest req, Authentication auth) {
+        return guardarInterno(id, req, auth, false);
+    }
+
+    private ResponseEntity<?> guardarInterno(String id, RegistroRequest req, Authentication auth,
+            boolean bloquear) {
         Usuario u = usuarioActual(auth);
 
         try {
@@ -155,10 +186,13 @@ public class RegistroOrdenController {
         if (r == null) {
             r = new RegistroOrden();
             r.id = id;
+            r.creadoEn = creacion(req.creadoEn);
         } else if (r.deletedAt != null) {
             return ResponseEntity.status(409).body("El registro fue eliminado");
         } else if (!r.ordenId.equals(req.ordenId) || r.tipo != tipo) {
             return ResponseEntity.badRequest().body("No se puede cambiar la orden ni el tipo");
+        } else if (bloquear && tipo == TipoRegistro.BITACORA && completada(orden)) {
+            return ResponseEntity.status(409).body(MSG_BLOQUEADA);
         }
 
         // Una sola firma activa por orden
@@ -169,6 +203,11 @@ public class RegistroOrdenController {
             if (otra) {
                 return ResponseEntity.status(409).body("La orden ya tiene firma");
             }
+        }
+
+        // Registros antiguos sin fecha de creación: se conserva su posición actual
+        if (r.creadoEn == null) {
+            r.creadoEn = r.updatedAt != null ? r.updatedAt : Instant.now();
         }
 
         r.ordenId = req.ordenId;
@@ -182,7 +221,15 @@ public class RegistroOrdenController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> borrar(@PathVariable String id, Authentication auth) {
+    public ResponseEntity<?> borrar(@PathVariable String id, Authentication auth) {
+        return borrarInterno(id, auth, true);
+    }
+
+    public ResponseEntity<?> borrarDesdeSync(String id, Authentication auth) {
+        return borrarInterno(id, auth, false);
+    }
+
+    private ResponseEntity<?> borrarInterno(String id, Authentication auth, boolean bloquear) {
         Usuario u = usuarioActual(auth);
         RegistroOrden r = repo.findById(id).orElse(null);
         if (r == null || r.deletedAt != null) {
@@ -191,6 +238,9 @@ public class RegistroOrdenController {
         OrdenTrabajo orden = ordenRepo.findById(r.ordenId).orElse(null);
         if (orden == null || !puedeVer(orden, u)) {
             return ResponseEntity.status(403).build();
+        }
+        if (bloquear && r.tipo == TipoRegistro.BITACORA && completada(orden)) {
+            return ResponseEntity.status(409).body(MSG_BLOQUEADA);
         }
         r.deletedAt = Instant.now();
         r.updatedAt = Instant.now();

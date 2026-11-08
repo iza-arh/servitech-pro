@@ -159,10 +159,10 @@ public class SyncController {
 
             case "REGISTRO":
                 if (borrar)
-                    return registros.borrar(it.id, auth);
+                    return registros.borrarDesdeSync(it.id, auth);
                 if (it.registro == null)
                     return ResponseEntity.badRequest().body("Falta registro");
-                return registros.guardar(it.id, it.registro, auth);
+                return registros.guardarDesdeSync(it.id, it.registro, auth);
 
             default:
                 return ResponseEntity.badRequest().body("Entidad inválida");
