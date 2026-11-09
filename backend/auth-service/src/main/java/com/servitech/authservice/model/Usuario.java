@@ -26,6 +26,9 @@ public class Usuario {
     @Enumerated(EnumType.STRING)
     private Rol rol;
 
+    @Column(length = 100)
+    private String nombre; // nombre para mostrar (técnicos y administradores)
+
     // getters y setters
     public Long getId() {
         return id;
@@ -69,5 +72,13 @@ public class Usuario {
             throw new IllegalArgumentException("El rol no puede ser nulo.");
         }
         this.rol = rol;
+    }
+
+    public String getNombre() {
+        return nombre;
+    }
+
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
     }
 }

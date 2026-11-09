@@ -31,7 +31,7 @@ public class AuthController {
     private final PasswordEncoder passwordEncoder;
     private final JwtUtil jwtUtil;
 
-    public AuthController(UsuarioRepository usuarioRepository,ClienteRepository clienteRepository,
+    public AuthController(UsuarioRepository usuarioRepository, ClienteRepository clienteRepository,
             PasswordEncoder passwordEncoder, JwtUtil jwtUtil) {
         this.usuarioRepository = usuarioRepository;
         this.clienteRepository = clienteRepository;
@@ -52,31 +52,39 @@ public class AuthController {
     }
 
     @PostMapping("/register")
-@Transactional // si algo falla, no queda la cuenta sin su cliente
-public ResponseEntity<?> register(@RequestBody RegisterRequest request) {
-    if (request.getUsername() == null || request.getUsername().isBlank()
-            || request.getPassword() == null || request.getPassword().length() < 8
-            || request.getNombre() == null || request.getNombre().isBlank()) {
-        return ResponseEntity.badRequest().body("Datos inválidos");
+    @Transactional // si algo falla, no queda la cuenta sin su cliente
+    public ResponseEntity<?> register(@RequestBody RegisterRequest request) {
+        if (request.getUsername() == null || request.getUsername().isBlank()
+                || request.getPassword() == null || request.getPassword().length() < 8
+                || request.getNombre() == null || request.getNombre().isBlank()) {
+            return ResponseEntity.badRequest().body("Datos inválidos");
+        }
+        if (!request.getUsername().trim().matches("^[A-Za-z0-9._-]{3,30}$")) {
+            return ResponseEntity.badRequest()
+                    .body("Usuario inválido: 3 a 30 caracteres, sin espacios (letras, números, punto o guion)");
+        }
+        if (request.getPassword().length() > 72 || request.getNombre().trim().length() > 100) {
+            return ResponseEntity.badRequest().body("Datos demasiado largos");
+        }
+        if (usuarioRepository.findByUsername(request.getUsername().trim()).isPresent()) {
+            return ResponseEntity.status(409).body("El usuario ya existe");
+        }
+
+        Usuario usuario = new Usuario();
+        usuario.setUsername(request.getUsername());
+        usuario.setPasswordHash(passwordEncoder.encode(request.getPassword()));
+        usuario.setRol(Rol.CLIENTE); // siempre CLIENTE, nunca se acepta del request
+        usuario.setNombre(request.getNombre().trim());
+        usuario = usuarioRepository.save(usuario); // para obtener el id generado
+
+        // Cada cuenta de cliente crea su registro en el catálogo, vinculado 1 a 1
+        Cliente cliente = new Cliente();
+        cliente.setId(UUID.randomUUID().toString());
+        cliente.setNombre(request.getNombre().trim());
+        cliente.setUsuarioId(usuario.getId());
+        cliente.setUpdatedAt(Instant.now());
+        clienteRepository.save(cliente);
+
+        return ResponseEntity.status(201).build();
     }
-    if (usuarioRepository.findByUsername(request.getUsername()).isPresent()) {
-        return ResponseEntity.status(409).body("El usuario ya existe");
-    }
-
-    Usuario usuario = new Usuario();
-    usuario.setUsername(request.getUsername());
-    usuario.setPasswordHash(passwordEncoder.encode(request.getPassword()));
-    usuario.setRol(Rol.CLIENTE); // siempre CLIENTE, nunca se acepta del request
-    usuario = usuarioRepository.save(usuario); // para obtener el id generado
-
-    // Cada cuenta de cliente crea su registro en el catálogo, vinculado 1 a 1
-    Cliente cliente = new Cliente();
-    cliente.setId(UUID.randomUUID().toString());
-    cliente.setNombre(request.getNombre().trim());
-    cliente.setUsuarioId(usuario.getId());
-    cliente.setUpdatedAt(Instant.now());
-    clienteRepository.save(cliente);
-
-    return ResponseEntity.status(201).build();
-}
 }

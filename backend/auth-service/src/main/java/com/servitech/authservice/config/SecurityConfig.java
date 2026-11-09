@@ -65,10 +65,23 @@ public class SecurityConfig {
     }
 
     // Usuarios de prueba: solo si app.seed-users=true (nunca en producción)
+    // Administrador inicial (ADMIN_USER / ADMIN_PASSWORD) y usuarios de prueba
+    // (solo si app.seed-users=true)
     @Bean
     CommandLineRunner initUsuarios(UsuarioRepository repo, PasswordEncoder encoder,
-            @Value("${app.seed-users:false}") boolean seed) {
+            @Value("${app.seed-users:false}") boolean seed,
+            @Value("${app.admin-username:}") String adminUser,
+            @Value("${app.admin-password:}") String adminPass) {
         return args -> {
+            if (!adminUser.isBlank() && adminPass.length() >= 8
+                    && repo.findAll().stream().noneMatch(u -> u.getRol() == Rol.ADMIN)) {
+                Usuario admin = new Usuario();
+                admin.setUsername(adminUser);
+                admin.setPasswordHash(encoder.encode(adminPass));
+                admin.setNombre("Administrador");
+                admin.setRol(Rol.ADMIN);
+                repo.save(admin);
+            }
             if (!seed) {
                 return;
             }

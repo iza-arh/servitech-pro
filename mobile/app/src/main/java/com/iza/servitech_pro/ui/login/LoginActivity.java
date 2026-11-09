@@ -19,6 +19,8 @@ import com.iza.servitech_pro.data.remote.dto.RegisterRequest;
 import com.iza.servitech_pro.data.repository.SecurePrefs;
 import com.iza.servitech_pro.ui.dashboard.DashboardActivity;
 
+import java.io.IOException;
+
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -34,6 +36,9 @@ public class LoginActivity extends AppCompatActivity {
 
     private TextView btnModoLogin, btnModoRegistro;
     private boolean modoRegistro = false;
+
+    private TextInputLayout tilNombre;
+    private EditText etNombre;
 
 
 
@@ -60,6 +65,8 @@ public class LoginActivity extends AppCompatActivity {
         tvError = findViewById(R.id.tvError);
         tilConfirmPassword = findViewById(R.id.tilConfirmPassword);
         etConfirmPassword = findViewById(R.id.etConfirmPassword);
+        tilNombre = findViewById(R.id.tilNombre);
+        etNombre = findViewById(R.id.etNombre);
         btnModoLogin = findViewById(R.id.btnModoLogin);
         btnModoRegistro = findViewById(R.id.btnModoRegistro);
 
@@ -139,23 +146,27 @@ public class LoginActivity extends AppCompatActivity {
 
         layoutErrorMessage.setVisibility(View.GONE);
         tilConfirmPassword.setVisibility(registro ? View.VISIBLE : View.GONE);
+        tilNombre.setVisibility(registro ? View.VISIBLE : View.GONE);
         btnLogin.setText(registro ? R.string.login_boton_registro : R.string.login_boton);
     }
 
     private void intentarRegistro() {
         layoutErrorMessage.setVisibility(View.GONE);
 
+        String nombre = etNombre.getText().toString().trim();
         String usuario = etUsername.getText().toString().trim();
         String password = etPassword.getText().toString();
         String confirmacion = etConfirmPassword.getText().toString();
 
         // Validaciones locales antes de llamar al servidor
-        if (usuario.isEmpty()) {
-            mostrarError("Ingresa tu usuario");
+        if (nombre.length() < 2) {
+            mostrarError("Ingresa tu nombre completo");
             return;
         }
-        // Si el campo se queda como Email, agrega aquí:
-        // if (!Patterns.EMAIL_ADDRESS.matcher(usuario).matches()) { ... }
+        if (!usuario.matches("[A-Za-z0-9._-]{3,30}")) {
+            mostrarError("Usuario: 3 a 30 caracteres, sin espacios (letras, números, punto o guion)");
+            return;
+        }
         if (password.length() < 8) {
             mostrarError("La contraseña debe tener al menos 8 caracteres");
             return;
@@ -166,6 +177,7 @@ public class LoginActivity extends AppCompatActivity {
         }
 
         RegisterRequest request = new RegisterRequest();
+        request.setNombre(nombre);
         request.setUsername(usuario);
         request.setPassword(password);
 
@@ -175,13 +187,21 @@ public class LoginActivity extends AppCompatActivity {
                 if (response.isSuccessful()) { // 201
                     Toast.makeText(LoginActivity.this,
                             "Cuenta creada. Inicia sesión", Toast.LENGTH_SHORT).show();
+                    etNombre.setText("");
                     etPassword.setText("");
                     etConfirmPassword.setText("");
                     cambiarModo(false); // vuelve al modo login
                 } else if (response.code() == 409) {
                     mostrarError("Ese usuario ya está registrado");
                 } else if (response.code() == 400) {
-                    mostrarError("Datos inválidos");
+                    String detalle = "Datos inválidos";
+                    try {
+                        if (response.errorBody() != null) {
+                            detalle = response.errorBody().string();
+                        }
+                    } catch (IOException ignorada) {
+                    }
+                    mostrarError(detalle);
                 } else {
                     mostrarError("Error del servidor (" + response.code() + ")");
                 }
