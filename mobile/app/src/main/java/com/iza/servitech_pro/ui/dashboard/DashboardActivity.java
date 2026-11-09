@@ -20,8 +20,7 @@ public class DashboardActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dashboard);
 
-        SyncManager.getInstance(this).iniciar();
-
+        SyncManager.getInstance(this).sincronizar();
         SyncBarView barra = findViewById(R.id.syncBar);
         barra.enlazar(this);
 

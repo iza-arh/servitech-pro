@@ -33,6 +33,8 @@ import java.util.concurrent.atomic.AtomicBoolean;
 
 import retrofit2.Call;
 import retrofit2.Response;
+import android.os.Handler;
+import android.os.Looper;
 
 public class SyncManager {
 
@@ -60,6 +62,21 @@ public class SyncManager {
     private final MutableLiveData<SyncResultado> ultimoResultado = new MutableLiveData<>();
     private volatile boolean hayRed = false;
     private boolean iniciado = false;
+
+    private static final long INTERVALO_MS = 10_000;       // cada cuánto se consulta el servidor con la app abierta
+    private static final long MIN_ENTRE_SYNC_MS = 10_000;  // al abrir pantallas, solo si pasó este tiempo
+    private final Handler handler = new Handler(Looper.getMainLooper());
+    private int actividadesVisibles = 0;
+    private volatile long ultimaSync = 0;
+    private final Runnable tick = new Runnable() {
+        @Override
+        public void run() {
+            if (hayRed && !ocupado.get() && estado.getValue() != SyncEstado.SESION_EXPIRADA) {
+                sincronizar();
+            }
+            handler.postDelayed(this, INTERVALO_MS);
+        }
+    };
 
     // SOLO PRUEBAS: simula que no hay servidor
     public volatile boolean simularSinRed = false;
@@ -112,6 +129,28 @@ public class SyncManager {
         }
     }
 
+    // Los llama ServiTechApp cada vez que una pantalla se muestra o se oculta (hilo principal)
+    public void alMostrarseActividad() {
+        actividadesVisibles++;
+        if (actividadesVisibles == 1) {
+            handler.removeCallbacks(tick);
+            handler.postDelayed(tick, INTERVALO_MS);
+        }
+        boolean haySesion = SecurePrefs.leerToken(app) != null;
+        if (haySesion && System.currentTimeMillis() - ultimaSync > MIN_ENTRE_SYNC_MS) {
+            sincronizar();
+        }
+    }
+
+    public void alOcultarseActividad() {
+        if (actividadesVisibles > 0) {
+            actividadesVisibles--;
+        }
+        if (actividadesVisibles == 0) {
+            handler.removeCallbacks(tick); // app en segundo plano: no se consulta
+        }
+    }
+
     // Pide una sincronización en segundo plano (si ya hay una, se repite al terminar)
     public void sincronizar() {
         if (!ocupado.compareAndSet(false, true)) {
@@ -159,6 +198,7 @@ public class SyncManager {
         } else {
             estado.postValue(SyncEstado.EN_LINEA);
         }
+        ultimaSync = System.currentTimeMillis();
         return r;
     }
 
