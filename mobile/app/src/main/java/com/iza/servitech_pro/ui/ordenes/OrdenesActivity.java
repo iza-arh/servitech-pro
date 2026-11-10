@@ -20,6 +20,8 @@ import com.iza.servitech_pro.ui.common.SyncBarView;
 import java.util.List;
 import android.content.Intent;
 
+import com.iza.servitech_pro.ui.common.Sesion;
+
 public class OrdenesActivity extends AppCompatActivity {
 
     public static final String EXTRA_ESTADO = "estado";
@@ -91,6 +93,14 @@ public class OrdenesActivity extends AppCompatActivity {
         });
 
         cargar();
+
+        findViewById(R.id.fabNueva).setOnClickListener(v ->
+                startActivity(new Intent(this, OrdenFormActivity.class)));
+
+        if (Sesion.esCliente(this)) {
+            findViewById(R.id.fabNueva).setVisibility(android.view.View.GONE);
+        }
+
     }
 
     // Cambia la consulta cuando cambia el filtro o el texto de búsqueda

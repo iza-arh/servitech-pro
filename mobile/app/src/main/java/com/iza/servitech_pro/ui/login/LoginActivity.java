@@ -24,9 +24,12 @@ import java.io.IOException;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+import com.iza.servitech_pro.data.local.AppDatabase;
+import com.iza.servitech_pro.data.sync.SyncManager;
 
 public class LoginActivity extends AppCompatActivity {
 
+    public static final String EXTRA_EXPIRADA = "sesion_expirada";
     private EditText etUsername, etPassword;
     private Button btnLogin;
     private LinearLayout layoutErrorMessage;
@@ -47,10 +50,11 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 
         // Si ya hay una sesión guardada, se salta el login (funciona sin conexión)
-        String tokenGuardado = SecurePrefs.leerToken(this);
         String rolGuardado = SecurePrefs.leerRol(this);
-        if (tokenGuardado != null && rolGuardado != null) {
+        if (SecurePrefs.leerToken(this) != null && rolGuardado != null
+                && !getIntent().getBooleanExtra(EXTRA_EXPIRADA, false)) {
             irSegunRol(rolGuardado);
+            finish();
             return;
         }
 
@@ -83,6 +87,9 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
 
+        if (getIntent().getBooleanExtra(EXTRA_EXPIRADA, false)) {
+            mostrarError(getString(R.string.login_sesion_expirada));
+        }
     }
 
     private void intentarLogin() {
@@ -97,10 +104,10 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call<LoginResponse> call, Response<LoginResponse> response) {
                 if (response.isSuccessful() && response.body() != null) {
+                    String rol = response.body().getRol();
                     // Guarda el token cifrado con el Keystore de Android
-                    SecurePrefs.guardarSesion(LoginActivity.this,
-                            response.body().getToken(), response.body().getRol());
-                    irSegunRol(response.body().getRol());
+                    SecurePrefs.guardarSesion(LoginActivity.this, response.body().getToken(), rol);
+                    abrirSesion(request.getUsername(), rol);
                 } else if (response.code() == 401) {
                     mostrarError(getString(R.string.login_error_credenciales));
                 } else {
@@ -212,6 +219,23 @@ public class LoginActivity extends AppCompatActivity {
                 Log.e("REGISTER", "Fallo la peticion de registro", t);
                 mostrarError("Error de conexión");
             }
+        });
+    }
+
+    // Si entra otro usuario distinto al anterior, se borran los datos locales del anterior
+    private void abrirSesion(String usuario, String rol) {
+        final android.content.SharedPreferences estado = getSharedPreferences("app_estado", MODE_PRIVATE);
+        final String anterior = estado.getString("ultimo_usuario", null);
+        final boolean cambio = anterior != null && !anterior.equals(usuario);
+        estado.edit().putString("ultimo_usuario", usuario).apply();
+        AppDatabase.databaseWriteExecutor.execute(() -> {
+            if (cambio) {
+                AppDatabase.getInstance(getApplicationContext()).clearAllTables();
+            }
+            runOnUiThread(() -> {
+                SyncManager.getInstance(this).reiniciar();
+                irSegunRol(rol);
+            });
         });
     }
 }

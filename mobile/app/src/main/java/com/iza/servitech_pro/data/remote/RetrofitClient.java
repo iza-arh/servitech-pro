@@ -15,6 +15,7 @@ import okhttp3.Request;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 //
+import com.iza.servitech_pro.data.remote.api.UsuarioAdminApiService;
 public class RetrofitClient {
     private static final String BASE_URL = "http://192.168.1.94:8080/";
     private static Retrofit retrofit;
@@ -80,5 +81,9 @@ public class RetrofitClient {
                     .build();
         }
         return retrofitSync.create(SyncApiService.class);
+    }
+
+    public static UsuarioAdminApiService getAdminApi(Context context) {
+        return conToken(context).create(UsuarioAdminApiService.class);
     }
 }

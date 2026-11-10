@@ -59,6 +59,15 @@ public class FotosAdapter extends ListAdapter<FotoItem, FotosAdapter.VH> {
     private final Context ctx;
     private final Listener listener;
 
+    private boolean editable = true;
+
+    public void setEditable(boolean e) {
+        if (editable != e) {
+            editable = e;
+            notifyDataSetChanged();
+        }
+    }
+
     public FotosAdapter(Context ctx, Listener listener) {
         super(DIFF);
         this.ctx = ctx.getApplicationContext();
@@ -114,6 +123,7 @@ public class FotosAdapter extends ListAdapter<FotoItem, FotosAdapter.VH> {
             });
         }
 
+        h.btnEliminar.setVisibility(editable ? View.VISIBLE : View.GONE);
         h.itemView.setOnClickListener(v -> listener.alVer(f));
         h.btnEliminar.setOnClickListener(v -> listener.alEliminar(f));
     }

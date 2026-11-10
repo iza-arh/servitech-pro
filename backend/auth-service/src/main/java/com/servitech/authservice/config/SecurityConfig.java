@@ -50,11 +50,13 @@ public class SecurityConfig {
                         .dispatcherTypeMatchers(DispatcherType.ERROR).permitAll()
                         .requestMatchers("/api/auth/**").permitAll()
                         .requestMatchers("/api/admin/**").hasRole("ADMIN")
-                        .requestMatchers(HttpMethod.GET, "/api/clientes/**").hasAnyRole("ADMIN", "TECNICO")
+                        .requestMatchers(HttpMethod.GET, "/api/clientes/**").hasAnyRole("ADMIN", "TECNICO", 
+                                "CLIENTE")
                         .requestMatchers("/api/clientes/**").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.DELETE, "/api/ordenes/**").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.PUT, "/api/ordenes/**").hasAnyRole("ADMIN", "TECNICO")
-                        .requestMatchers(HttpMethod.GET, "/api/catalogo/**").hasAnyRole("ADMIN", "TECNICO")
+                        .requestMatchers(HttpMethod.GET, "/api/catalogo/**").hasAnyRole("ADMIN", "TECNICO", 
+                                "CLIENTE")
                         .requestMatchers("/api/catalogo/**").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.GET, "/api/registros/**").authenticated()
                         .requestMatchers("/api/registros/**").hasAnyRole("ADMIN", "TECNICO")

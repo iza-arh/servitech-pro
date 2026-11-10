@@ -31,6 +31,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import com.iza.servitech_pro.ui.common.Sesion;
 
 public class FotosActivity extends AppCompatActivity {
 
@@ -92,6 +93,11 @@ public class FotosActivity extends AppCompatActivity {
             }
         });
         rv.setAdapter(adapter);
+        if (Sesion.esCliente(this)) {
+            adapter.setEditable(false);
+            findViewById(R.id.btnTomar).setVisibility(View.GONE);
+            findViewById(R.id.btnGaleria).setVisibility(View.GONE);
+        }
 
         db.ordenDao().observarDetalle(ordenId).observe(this, d -> {
             if (d != null) {

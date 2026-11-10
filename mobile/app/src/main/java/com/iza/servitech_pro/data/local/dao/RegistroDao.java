@@ -54,4 +54,8 @@ public interface RegistroDao {
             + "WHERE deletedAt IS NULL AND ordenId = :ordenId AND tipo = 'FOTO' "
             + "ORDER BY localTs, updatedAt")
     LiveData<List<FotoItem>> observarFotos(String ordenId);
+
+    @Query("SELECT * FROM registros_orden WHERE deletedAt IS NULL AND ordenId = :ordenId "
+            + "AND tipo = 'REPUESTO' ORDER BY localTs, updatedAt")
+    List<RegistroEntity> getRepuestosActivos(String ordenId);
 }

@@ -119,6 +119,19 @@
             android:textColor="@color/sv_text_secondary"
             android:textSize="14sp"
             android:visibility="gone" />
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/fabNueva"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|end"
+            android:layout_marginEnd="4dp"
+            android:layout_marginBottom="16dp"
+            android:contentDescription="@string/form_nueva"
+            android:src="@drawable/ic_add"
+            app:backgroundTint="@color/sv_primary"
+            app:tint="@color/sv_on_primary" />
+
     </FrameLayout>
 </LinearLayout>
 </LinearLayout>

@@ -20,6 +20,7 @@ import java.util.List;
 import android.content.Intent;
 import com.iza.servitech_pro.ui.bitacora.BitacoraActivity;
 import com.iza.servitech_pro.ui.fotos.FotosActivity;
+import com.iza.servitech_pro.ui.common.Sesion;
 public class OrdenDetalleActivity extends AppCompatActivity {
 
     public static final String EXTRA_ID = "ordenId";
@@ -70,11 +71,19 @@ public class OrdenDetalleActivity extends AppCompatActivity {
             startActivity(i);
         });
         findViewById(R.id.btnFirma).setOnClickListener(pronto);
-        findViewById(R.id.btnEditar).setOnClickListener(pronto);
-
+        findViewById(R.id.btnEditar).setOnClickListener(v -> {
+            Intent i = new Intent(this, OrdenFormActivity.class);
+            i.putExtra(OrdenFormActivity.EXTRA_ID, ordenId);
+            startActivity(i);
+        });
         AppDatabase db = AppDatabase.getInstance(this);
         db.ordenDao().observarDetalle(ordenId).observe(this, this::mostrar);
         db.registroDao().observarRepuestos(ordenId).observe(this, this::mostrarRepuestos);
+
+        if (Sesion.esCliente(this)) {
+            findViewById(R.id.btnFirma).setVisibility(View.GONE);
+            findViewById(R.id.btnEditar).setVisibility(View.GONE);
+        }
     }
 
     private String o(String valor) {

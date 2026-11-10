@@ -56,6 +56,17 @@
             android:name=".ui.fotos.FotosActivity"
             android:exported="false" />
 
+        <activity
+            android:name=".ui.usuarios.UsuariosActivity"
+            android:exported="false"
+            android:windowSoftInputMode="adjustResize" />
+
+        <activity
+            android:name=".ui.ordenes.OrdenFormActivity"
+            android:exported="false"
+            android:windowSoftInputMode="adjustResize" />
+
+
         <provider
             android:name="androidx.core.content.FileProvider"
             android:authorities="${applicationId}.fileprovider"

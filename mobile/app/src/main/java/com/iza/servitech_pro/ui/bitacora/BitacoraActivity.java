@@ -22,6 +22,7 @@ import com.iza.servitech_pro.ui.common.SyncBarView;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import com.iza.servitech_pro.ui.common.Sesion;
 
 public class BitacoraActivity extends AppCompatActivity {
 
@@ -110,13 +111,14 @@ public class BitacoraActivity extends AppCompatActivity {
         return FechaUtil.aMillis(r.creadoEn != null ? r.creadoEn : r.updatedAt, r.localTs);
     }
 
-    // Orden completada: la bitácora queda solo de lectura
+    // Orden completada o usuario cliente: la bitácora queda solo de lectura
     private void aplicarBloqueo(boolean b) {
-        bloqueada = b;
-        adapter.setEditable(!b);
-        barraNota.setVisibility(b ? View.GONE : View.VISIBLE);
-        tvBloqueada.setVisibility(b ? View.VISIBLE : View.GONE);
-        if (b) {
+        boolean soloLectura = Sesion.esCliente(this);
+        bloqueada = b || soloLectura;
+        adapter.setEditable(!bloqueada);
+        barraNota.setVisibility(bloqueada ? View.GONE : View.VISIBLE);
+        tvBloqueada.setVisibility(b && !soloLectura ? View.VISIBLE : View.GONE);
+        if (bloqueada) {
             cancelarEdicion();
         }
     }

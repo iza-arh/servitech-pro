@@ -151,6 +151,12 @@ public class SyncManager {
         }
     }
 
+    // Se llama justo después de iniciar sesión (hilo principal): limpia el estado "sesión expirada"
+    public void reiniciar() {
+        estado.setValue(hayRed ? SyncEstado.EN_LINEA : SyncEstado.SIN_CONEXION);
+        sincronizar();
+    }
+
     // Pide una sincronización en segundo plano (si ya hay una, se repite al terminar)
     public void sincronizar() {
         if (!ocupado.compareAndSet(false, true)) {
