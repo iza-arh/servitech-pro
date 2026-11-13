@@ -12,4 +12,5 @@ public class OrdenResumen {
     public String servicioNombre;
     public long localTs;
     public boolean isSynced;
+    public Long tecnicoId;
 }

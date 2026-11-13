@@ -22,6 +22,8 @@ import android.content.Intent;
 
 import com.iza.servitech_pro.ui.common.Sesion;
 
+import com.iza.servitech_pro.ui.common.TecnicosCache;
+
 public class OrdenesActivity extends AppCompatActivity {
 
     public static final String EXTRA_ESTADO = "estado";
@@ -101,6 +103,7 @@ public class OrdenesActivity extends AppCompatActivity {
             findViewById(R.id.fabNueva).setVisibility(android.view.View.GONE);
         }
 
+        TecnicosCache.actualizar(this, () -> adapter.notifyDataSetChanged());
     }
 
     // Cambia la consulta cuando cambia el filtro o el texto de búsqueda

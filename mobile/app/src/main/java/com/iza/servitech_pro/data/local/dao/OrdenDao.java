@@ -51,7 +51,7 @@ public interface OrdenDao {
     String maxUpdatedAt();
 
     // Lista para la pantalla: estado "" = todos, q "" = sin búsqueda
-    @Query("SELECT o.id AS id, o.placa AS placa, o.marca AS marca, o.modelo AS modelo, "
+    @Query("SELECT o.id AS id, o.tecnicoId AS tecnicoId, o.placa AS placa, o.marca AS marca, o.modelo AS modelo, "
             + "o.descripcion AS descripcion, o.estado AS estado, o.updatedAt AS updatedAt, "
             + "o.localTs AS localTs, o.isSynced AS isSynced, "
             + "c.nombre AS clienteNombre, s.nombre AS servicioNombre "

@@ -102,6 +102,7 @@ public class DashboardActivity extends AppCompatActivity {
     private void ejecutarCierre() {
         SecurePrefs.cerrarSesion(this);
         getSharedPreferences("app_estado", MODE_PRIVATE).edit().clear().apply();
+        getSharedPreferences("tecnicos_cache", MODE_PRIVATE).edit().clear().apply();
         AppDatabase.databaseWriteExecutor.execute(() -> {
             AppDatabase.getInstance(this).clearAllTables();
             runOnUiThread(() -> {

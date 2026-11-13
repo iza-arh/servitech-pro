@@ -19,6 +19,8 @@ import com.iza.servitech_pro.data.local.FechaUtil;
 import com.iza.servitech_pro.data.local.model.OrdenResumen;
 
 import java.util.Objects;
+import com.iza.servitech_pro.ui.common.Sesion;
+import com.iza.servitech_pro.ui.common.TecnicosCache;
 
 public class OrdenesAdapter extends ListAdapter<OrdenResumen, OrdenesAdapter.VH> {
 
@@ -38,7 +40,8 @@ public class OrdenesAdapter extends ListAdapter<OrdenResumen, OrdenesAdapter.VH>
                     && Objects.equals(a.clienteNombre, b.clienteNombre)
                     && Objects.equals(a.servicioNombre, b.servicioNombre)
                     && a.localTs == b.localTs
-                    && a.isSynced == b.isSynced;
+                    && a.isSynced == b.isSynced
+                    && Objects.equals(a.tecnicoId, b.tecnicoId);
         }
     };
 
@@ -59,6 +62,7 @@ public class OrdenesAdapter extends ListAdapter<OrdenResumen, OrdenesAdapter.VH>
     static class VH extends RecyclerView.ViewHolder {
         final TextView tvCliente, tvServicio, tvFecha, tvEstado;
         final ImageView icPendiente;
+        final TextView tvTecnico;
 
         VH(View v) {
             super(v);
@@ -67,6 +71,7 @@ public class OrdenesAdapter extends ListAdapter<OrdenResumen, OrdenesAdapter.VH>
             tvFecha = v.findViewById(R.id.tvFecha);
             tvEstado = v.findViewById(R.id.tvEstado);
             icPendiente = v.findViewById(R.id.icPendienteSync);
+            tvTecnico = v.findViewById(R.id.tvTecnico);
         }
     }
 
@@ -117,6 +122,19 @@ public class OrdenesAdapter extends ListAdapter<OrdenResumen, OrdenesAdapter.VH>
         h.tvEstado.setBackgroundTintList(ColorStateList.valueOf(ContextCompat.getColor(c, fondo)));
 
         h.icPendiente.setVisibility(o.isSynced ? View.GONE : View.VISIBLE);
+
+        if (Sesion.esAdmin(c)) {
+            String tec = TecnicosCache.nombre(c, o.tecnicoId);
+            if (o.tecnicoId == null) {
+                h.tvTecnico.setText(R.string.card_sin_tecnico);
+            } else {
+                h.tvTecnico.setText(c.getString(R.string.card_tecnico, tec != null ? tec : "#" + o.tecnicoId));
+            }
+            h.tvTecnico.setVisibility(View.VISIBLE);
+        } else {
+            h.tvTecnico.setVisibility(View.GONE);
+        }
+
         h.itemView.setOnClickListener(v -> {
             if (listener != null) {
                 listener.alTocar(o);

@@ -150,4 +150,9 @@
     <string name="form_rep_err_cantidad">Cantidad entre 1 y 999</string>
     <string name="form_rep_agregar">Agregar</string>
     <string name="form_rep_sin_catalogo">No hay repuestos en el catálogo todavía</string>
+    <string name="form_tecnico">Técnico asignado</string>
+    <string name="form_tecnico_ayuda">Sin técnico asignado, ningún técnico verá la orden</string>
+    <string name="card_tecnico">Técnico: %s</string>
+    <string name="card_sin_tecnico">Sin técnico asignado</string>
+    <string name="form_tecnico_offline">Sin conexión y sin lista guardada: se conserva el técnico actual</string>
 </resources>

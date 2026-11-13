@@ -33,7 +33,9 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.List;
-import com.iza.servitech_pro.ui.common.Sesion;
+import com.iza.servitech_pro.data.remote.dto.UsuarioAdminDto;
+import com.iza.servitech_pro.ui.common.TecnicosCache;
+
 public class OrdenFormActivity extends AppCompatActivity {
 
     public static final String EXTRA_ID = "ordenId";
@@ -73,6 +75,12 @@ public class OrdenFormActivity extends AppCompatActivity {
     private final List<String> quitados = new ArrayList<>();
 
     private String clienteSel, servicioSel, equipoSel, estadoSel = "PENDIENTE";
+
+    private TextInputLayout tilTecnico;
+    private AutoCompleteTextView acTecnico;
+    private Long tecnicoSel;
+    private boolean tecnicosCargados = false;
+    private List<UsuarioAdminDto.Usuario> tecnicos = new ArrayList<>();
     private String snapshotInicial = "";
 
     private TextView tvTitulo, tvSinRepuestos;
@@ -118,6 +126,9 @@ public class OrdenFormActivity extends AppCompatActivity {
         etDiagnostico = findViewById(R.id.etDiagnostico);
         chipsRepuestos = findViewById(R.id.chipsRepuestos);
         btnGuardar = findViewById(R.id.btnGuardar);
+        tilTecnico = findViewById(R.id.tilTecnico);
+        acTecnico = findViewById(R.id.acTecnico);
+        tilTecnico.setVisibility(Sesion.esAdmin(this) ? View.VISIBLE : View.GONE);
 
         tvTitulo.setText(esNueva ? getString(R.string.form_nueva) : "");
 
@@ -207,6 +218,8 @@ public class OrdenFormActivity extends AppCompatActivity {
             equipoSel = ex.categoriaEquipoId;
             acEquipo.setText(nombreCatalogo(equipos, ex.categoriaEquipoId), false);
             estadoSel = ex.estado != null ? ex.estado : "PENDIENTE";
+            tecnicoSel = ex.tecnicoId;
+
 
             for (RegistroEntity r : reps) {
                 Parte p = new Parte();
@@ -224,6 +237,7 @@ public class OrdenFormActivity extends AppCompatActivity {
         acEstado.setText(etiquetasEstado().get(indiceEstado(estadoSel)), false);
         pintarPartes();
         snapshotInicial = snapshot();
+        cargarTecnicos(ex == null || ex.tecnicoId == null);
     }
 
     private void dropdown(AutoCompleteTextView ac, List<String> etiquetas, Elegir al) {
@@ -267,6 +281,49 @@ public class OrdenFormActivity extends AppCompatActivity {
             }
         }
         return getString(R.string.form_ninguno);
+    }
+
+    // Solo administrador. Usa la lista guardada y, si hay conexión, la actualiza
+    private void cargarTecnicos(boolean puedeQuitar) {
+        if (!Sesion.esAdmin(this)) {
+            return;
+        }
+        List<UsuarioAdminDto.Usuario> guardados = TecnicosCache.listar(this);
+        if (guardados.isEmpty()) {
+            acTecnico.setText(tecnicoSel != null ? "#" + tecnicoSel : getString(R.string.form_ninguno), false);
+            tilTecnico.setHelperText(getString(R.string.form_tecnico_offline));
+        } else {
+            mostrarTecnicos(guardados, puedeQuitar);
+        }
+        TecnicosCache.actualizar(this, () -> {
+            if (!isFinishing() && !isDestroyed()) {
+                mostrarTecnicos(TecnicosCache.listar(this), puedeQuitar);
+            }
+        });
+    }
+
+    private void mostrarTecnicos(List<UsuarioAdminDto.Usuario> lista, boolean puedeQuitar) {
+        tecnicos = lista;
+        tecnicosCargados = true;
+        final int desfase = puedeQuitar ? 1 : 0;
+
+        List<String> etiquetas = new ArrayList<>();
+        if (puedeQuitar) {
+            etiquetas.add(getString(R.string.form_ninguno));
+        }
+        String actual = tecnicoSel != null ? "#" + tecnicoSel : getString(R.string.form_ninguno);
+        for (UsuarioAdminDto.Usuario u : tecnicos) {
+            etiquetas.add(u.nombre);
+            if (u.id != null && u.id.equals(tecnicoSel)) {
+                actual = u.nombre;
+            }
+        }
+        dropdown(acTecnico, etiquetas, pos -> {
+            tecnicoSel = (puedeQuitar && pos == 0) ? null : tecnicos.get(pos - desfase).id;
+            tilTecnico.setHelperText(tecnicoSel == null ? getString(R.string.form_tecnico_ayuda) : null);
+        });
+        acTecnico.setText(actual, false);
+        tilTecnico.setHelperText(tecnicoSel == null ? getString(R.string.form_tecnico_ayuda) : null);
     }
 
     // ---------- Repuestos ----------
@@ -362,7 +419,7 @@ public class OrdenFormActivity extends AppCompatActivity {
     private String snapshot() {
         StringBuilder sb = new StringBuilder();
         sb.append(clienteSel).append('|').append(servicioSel).append('|').append(equipoSel).append('|')
-                .append(estadoSel).append('|').append(etPlaca.getText()).append('|')
+                .append(estadoSel).append(tecnicoSel).append('|').append('|').append(etPlaca.getText()).append('|')
                 .append(etMarca.getText()).append('|').append(etModelo.getText()).append('|')
                 .append(etAnio.getText()).append('|').append(etDiagnostico.getText()).append('|');
         for (Parte p : partes) sb.append(p.catalogoId).append(':').append(p.cantidad).append(',');
@@ -484,6 +541,9 @@ public class OrdenFormActivity extends AppCompatActivity {
         final Integer anio = anioTxt.isEmpty() ? null : Integer.valueOf(anioTxt);
         final String diagnostico = etDiagnostico.getText().toString().trim();
 
+        final Long tecnicoFinal = tecnicoSel;
+        final boolean aplicarTecnico = tecnicosCargados;
+
         AppDatabase.databaseWriteExecutor.execute(() -> {
             OrdenEntity o = esNueva ? new OrdenEntity() : db.ordenDao().getById(ordenId);
             if (o == null) {
@@ -502,6 +562,9 @@ public class OrdenFormActivity extends AppCompatActivity {
             o.anio = anio;
             o.descripcion = diagnostico;
             o.estado = estadoSel;
+            if (aplicarTecnico) {
+                o.tecnicoId = tecnicoFinal;
+            }
             store.guardarOrden(o);
 
             for (Parte p : partes) {
