@@ -43,6 +43,7 @@ android {
 }
 
 dependencies {
+    implementation(libs.activity.ktx)
     implementation(libs.appcompat)
     implementation(libs.material)
     implementation(libs.activity)
@@ -62,4 +63,7 @@ dependencies {
     implementation("androidx.recyclerview:recyclerview:1.4.0")
     implementation("com.google.android.gms:play-services-maps:19.2.0")
     implementation("androidx.exifinterface:exifinterface:1.3.7")
+    implementation("com.google.android.material:material:1.11.0")
+    implementation("androidx.viewpager2:viewpager2:1.0.0")
+    implementation("com.github.GrenderG:Toasty:1.5.2")
 }

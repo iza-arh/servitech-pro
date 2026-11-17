@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- Borde azul intenso cuando el usuario está escribiendo -->
+    <item android:color="@color/sv_primary" android:state_focused="true" />
+
+    <!-- Borde azul al pasar el cursor encima -->
+    <item android:color="@color/sv_primary" android:state_hovered="true" />
+
+    <!-- Borde suave cuando el campo está deshabilitado -->
+    <item android:color="@color/sv_border" android:state_enabled="false" />
+
+    <!-- Borde por defecto (antes y después de escribir) -->
+    <item android:color="@color/sv_border" />
+</selector>

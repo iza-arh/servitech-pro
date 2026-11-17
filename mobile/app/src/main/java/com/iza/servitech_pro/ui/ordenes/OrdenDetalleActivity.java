@@ -19,6 +19,7 @@ import com.iza.servitech_pro.ui.common.SyncBarView;
 import java.util.List;
 import android.content.Intent;
 import com.iza.servitech_pro.ui.bitacora.BitacoraActivity;
+import com.iza.servitech_pro.ui.firma.Firma;
 import com.iza.servitech_pro.ui.fotos.FotosActivity;
 import com.iza.servitech_pro.ui.common.Sesion;
 public class OrdenDetalleActivity extends AppCompatActivity {
@@ -70,7 +71,11 @@ public class OrdenDetalleActivity extends AppCompatActivity {
             i.putExtra(BitacoraActivity.EXTRA_ID, ordenId);
             startActivity(i);
         });
-        findViewById(R.id.btnFirma).setOnClickListener(pronto);
+        findViewById(R.id.btnFirma).setOnClickListener(v -> {
+            Intent i = new Intent(this, Firma.class);
+            i.putExtra(Firma.EXTRA_ID, ordenId);
+            startActivity(i);
+        });
         findViewById(R.id.btnEditar).setOnClickListener(v -> {
             Intent i = new Intent(this, OrdenFormActivity.class);
             i.putExtra(OrdenFormActivity.EXTRA_ID, ordenId);

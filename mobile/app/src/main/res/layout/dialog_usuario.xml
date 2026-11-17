@@ -5,8 +5,9 @@
     android:layout_height="wrap_content"
     android:orientation="vertical"
     android:paddingStart="24dp"
-    android:paddingTop="8dp"
-    android:paddingEnd="24dp">
+    android:paddingTop="16dp"
+    android:paddingEnd="24dp"
+    android:paddingBottom="16dp">
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/tilNombre"
@@ -14,7 +15,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="12dp"
-        android:hint="@string/usuarios_nombre">
+        android:hint="@string/usuarios_nombre"
+        app:boxBackgroundColor="@color/sv_surface"
+        app:boxStrokeColor="@color/sv_input_stroke">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/etNombre"
@@ -31,7 +34,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="12dp"
-        android:hint="@string/usuarios_usuario">
+        android:hint="@string/usuarios_usuario"
+        app:boxBackgroundColor="@color/sv_surface"
+        app:boxStrokeColor="@color/sv_input_stroke">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/etUsuario"
@@ -49,7 +54,9 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="12dp"
         android:hint="@string/usuarios_password"
-        app:endIconMode="password_toggle">
+        app:endIconMode="password_toggle"
+        app:boxBackgroundColor="@color/sv_surface"
+        app:boxStrokeColor="@color/sv_input_stroke">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/etPassword"
@@ -65,7 +72,9 @@
         style="@style/Widget.Material3.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="@string/usuarios_rol">
+        android:hint="@string/usuarios_rol"
+        app:boxBackgroundColor="@color/sv_surface"
+        app:boxStrokeColor="@color/sv_input_stroke">
 
         <AutoCompleteTextView
             android:id="@+id/acRol"

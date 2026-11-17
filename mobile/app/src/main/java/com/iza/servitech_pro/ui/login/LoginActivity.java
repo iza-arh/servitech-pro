@@ -105,9 +105,10 @@ public class LoginActivity extends AppCompatActivity {
             public void onResponse(Call<LoginResponse> call, Response<LoginResponse> response) {
                 if (response.isSuccessful() && response.body() != null) {
                     String rol = response.body().getRol();
+                    String nombre = response.body().getNombre();
                     // Guarda el token cifrado con el Keystore de Android
                     SecurePrefs.guardarSesion(LoginActivity.this, response.body().getToken(), rol);
-                    abrirSesion(request.getUsername(), rol);
+                    abrirSesion(request.getUsername(), nombre, rol);
                 } else if (response.code() == 401) {
                     mostrarError(getString(R.string.login_error_credenciales));
                 } else {
@@ -223,11 +224,19 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     // Si entra otro usuario distinto al anterior, se borran los datos locales del anterior
-    private void abrirSesion(String usuario, String rol) {
+    private void abrirSesion(String usuario, String nombre, String rol) {
         final android.content.SharedPreferences estado = getSharedPreferences("app_estado", MODE_PRIVATE);
         final String anterior = estado.getString("ultimo_usuario", null);
         final boolean cambio = anterior != null && !anterior.equals(usuario);
-        estado.edit().putString("ultimo_usuario", usuario).apply();
+
+        android.content.SharedPreferences.Editor ed = estado.edit();
+        ed.putString("ultimo_usuario", usuario);
+        if (nombre != null && !nombre.trim().isEmpty()){
+            ed.putString("nombre_usuario", nombre.trim());
+        }else {
+            ed.remove("nombre_usuario");
+        }
+        ed.apply();
         AppDatabase.databaseWriteExecutor.execute(() -> {
             if (cambio) {
                 AppDatabase.getInstance(getApplicationContext()).clearAllTables();

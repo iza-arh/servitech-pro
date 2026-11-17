@@ -1,0 +1,11 @@
+# IDEs
+.idea/
+**/.idea/
+*.iml
+.vscode/
+**/.vscode/
+
+# Environment variables and credentials
+.env
+.env.*
+*.env

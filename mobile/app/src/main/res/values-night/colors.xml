@@ -14,4 +14,7 @@
     <color name="sv_text_primary">#F5F5F5</color>
     <color name="sv_text_secondary">#B0B0C0</color>
     <color name="sv_border">#33334A</color>
+
+    <color name="sv_card_grad_start">#1E1E2E</color>
+    <color name="sv_card_grad_end">#2A2E4D</color>
 </resources>
