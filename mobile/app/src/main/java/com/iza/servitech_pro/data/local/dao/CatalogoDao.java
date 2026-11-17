@@ -39,4 +39,8 @@ public interface CatalogoDao {
 
     @Query("SELECT MAX(updatedAt) FROM catalogo_items")
     String maxUpdatedAt();
+
+    @Query("SELECT * FROM catalogo_items WHERE deletedAt IS NULL AND tipo = :tipo " +
+            "AND nombre LIKE '%' || :texto || '%' ORDER BY nombre COLLATE NOCASE")
+    LiveData<List<CatalogoEntity>> buscarPorTipo(String tipo, String texto);
 }

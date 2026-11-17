@@ -155,4 +155,46 @@
     <string name="card_tecnico">Técnico: %s</string>
     <string name="card_sin_tecnico">Sin técnico asignado</string>
     <string name="form_tecnico_offline">Sin conexión y sin lista guardada: se conserva el técnico actual</string>
+
+    <!-- Strings para view de firma -->
+    <string name="firma_advertencia">Al firmar a continuación, el cliente confirma la recepción y conformidad del trabajo realizado.</string>
+    <string name="firma_indicacion">Firme aquí.</string>
+    <string name="firma_titulo">AREA DE FIRMA (DIBUJE CON EL DEDO)</string>
+    <string name="firma_text">X Firma del cliente.</string>
+    <string name="btn_clear">Limpiar</string>
+    <string name="btn_next">Confirmar</string>
+
+    <string name="panel_perfil">Foto de perfil</string>
+    <string name="panel_bienvenida">¡Bienvenido, %1$s!</string>
+    <string name="panel_usuario_defecto">Usuario</string>
+    <string name="rol_admin">Administrador</string>
+    <string name="rol_tecnico">Técnico</string>
+    <string name="rol_cliente">Cliente</string>
+
+    <!-- Strings para catalogo de datos -->
+    <string name="buscar_catalogo">Buscar en catálogo…</string>
+    <string name="menu_catalogo">Catálogo</string>
+    <string name="menu_firma">Firma</string>
+
+    <!-- Clientes -->
+    <string name="cliente_nombre">Nombre completo *</string>"
+    <string name="cliente_telefono">Télefono</string>
+    <string name="cliente_correo">Correo electrónico</string>
+    <string name="cliente_direccion">Dirección</string>
+    <string name="btn_cancelar_cliente">Cancelar</string>
+    <string name="btn_guardar_cliente">Guardar</string>
+    <string name="btn_llamar_cliente">Llamar</string>
+    <string name="btn_correo_cliente">Correo</string>
+    <string name="btn_cerrar_cliente">Cerrar</string>
+    <string name="btn_editar_cliente">Editar</string>
+
+    <!-- Items catalogo: Servicio, Equipo y Repuestos -->
+    <string name="nombre_item_catalogo">Nombre</string>
+    <string name="codigo_item_catalogo">Código (opcional)</string>
+    <string name="cod_item_catalogo">Código</string>
+    <string name="precio_item_catalogo">Precio</string>
+    <string name="descripcion_item_catalogo">Descripción (opcional)</string>
+    <string name="des_item_catalogo">Descripción</string>
+    <string name="btn_eliminar">Eliminar</string>
+    <string name="btn_editar">Editar</string>
 </resources>

@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 public class LoginResponse {
     private String token;
     private String rol;
+    private String nombre;
 
     public LoginResponse(String token, String rol) {
         this.token = token;
@@ -28,5 +29,9 @@ public class LoginResponse {
 
     public void setRol(String rol) {
         this.rol = rol;
+    }
+
+    public String getNombre() {
+        return nombre;
     }
 }

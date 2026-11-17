@@ -44,6 +44,8 @@ public class OrdenesActivity extends AppCompatActivity {
         SyncBarView barra = findViewById(R.id.syncBar);
         barra.enlazar(this);
 
+        findViewById(R.id.btnRegresar).setOnClickListener(v -> finish());
+
         tvVacio = findViewById(R.id.tvVacio);
         RecyclerView rv = findViewById(R.id.rvOrdenes);
         rv.setLayoutManager(new LinearLayoutManager(this));

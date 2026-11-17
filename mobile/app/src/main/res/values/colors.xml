@@ -29,4 +29,7 @@
     <color name="login_toggle_seleccionado_texto">@color/sv_text_primary</color>
     <color name="login_toggle_texto">@color/sv_on_primary</color>
     <color name="sv_on_chip_dark">#1A1A2E</color>
+
+    <color name="sv_card_grad_start">#FFFFFF</color>
+    <color name="sv_card_grad_end">#E8EBFA</color>
 </resources>

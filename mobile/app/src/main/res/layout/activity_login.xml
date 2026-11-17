@@ -6,6 +6,7 @@
     android:layout_height="match_parent"
     android:background="@color/login_fondo"
     android:fillViewport="true"
+    android:fitsSystemWindows="true"
     tools:context=".ui.login.LoginActivity">
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -42,6 +43,21 @@
                 android:textSize="12sp" />
         </LinearLayout>
 
+        <!-- Imagen del logo -->
+        <com.google.android.material.imageview.ShapeableImageView
+            android:id="@+id/ivLogo"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:contentDescription="@string/panel_perfil"
+            android:src="@drawable/ic_logo_build"
+            app:tint="@color/sv_primary"
+            app:layout_constraintBottom_toBottomOf="@+id/tvTitle"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/layoutStatus"
+            app:layout_constraintVertical_bias="0.5"
+            app:layout_constraintVertical_chainStyle="packed" />
+
         <!-- Título: cabeza de la cadena vertical (aquí van chainStyle y bias) -->
         <TextView
             android:id="@+id/tvTitle"
@@ -55,8 +71,8 @@
             app:layout_constraintBottom_toTopOf="@+id/toggleModo"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/layoutStatus"
-            app:layout_constraintVertical_bias="0.4"
+            app:layout_constraintTop_toBottomOf="@+id/ivLogo"
+            app:layout_constraintVertical_bias="0.0"
             app:layout_constraintVertical_chainStyle="packed" />
 
         <!-- Selector de modo: píldora con dos opciones (login / registro) -->
@@ -113,6 +129,7 @@
             android:layout_marginBottom="12dp"
             android:hint="@string/login_hint_nombre"
             android:visibility="gone"
+            app:boxBackgroundColor="@color/sv_background"
             app:boxCornerRadiusBottomEnd="10dp"
             app:boxCornerRadiusBottomStart="10dp"
             app:boxCornerRadiusTopEnd="10dp"
@@ -142,6 +159,7 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="12dp"
             android:hint="@string/login_hint_email"
+            app:boxBackgroundColor="@color/sv_background"
             app:boxCornerRadiusBottomEnd="10dp"
             app:boxCornerRadiusBottomStart="10dp"
             app:boxCornerRadiusTopEnd="10dp"
@@ -170,6 +188,7 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="16dp"
             android:hint="@string/login_hint_password"
+            app:boxBackgroundColor="@color/sv_background"
             app:boxCornerRadiusBottomEnd="10dp"
             app:boxCornerRadiusBottomStart="10dp"
             app:boxCornerRadiusTopEnd="10dp"
@@ -199,6 +218,7 @@
             android:layout_marginBottom="16dp"
             android:hint="@string/login_hint_confirmar"
             android:visibility="gone"
+            app:boxBackgroundColor="@color/sv_background"
             app:boxCornerRadiusBottomEnd="10dp"
             app:boxCornerRadiusBottomStart="10dp"
             app:boxCornerRadiusTopEnd="10dp"

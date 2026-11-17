@@ -17,7 +17,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 //
 import com.iza.servitech_pro.data.remote.api.UsuarioAdminApiService;
 public class RetrofitClient {
-    private static final String BASE_URL = "http://192.168.1.94:8080/";
+    private static final String BASE_URL = "http://192.168.9.106:8080/";
     private static Retrofit retrofit;
     private static Retrofit retrofitConToken;
     private static Retrofit retrofitSync;

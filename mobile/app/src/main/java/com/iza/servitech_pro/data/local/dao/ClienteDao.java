@@ -41,4 +41,11 @@ public interface ClienteDao {
 
     @Query("SELECT * FROM clientes WHERE deletedAt IS NULL ORDER BY nombre COLLATE NOCASE")
     List<ClienteEntity> getActivos();
+
+    @Query("SELECT * FROM clientes WHERE deletedAt IS NULL " +
+            "AND (nombre LIKE '%' || :texto || '%' " +
+            "OR telefono LIKE '%' || :texto || '%' " +
+            "OR correo LIKE '%' || :texto || '%') " +
+            "ORDER BY nombre COLLATE NOCASE")
+    LiveData<List<ClienteEntity>> buscarActivos(String texto);
 }

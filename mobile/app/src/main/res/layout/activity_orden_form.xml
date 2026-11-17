@@ -22,7 +22,7 @@
             android:layout_height="24dp"
             android:contentDescription="@string/btn_atras"
             android:src="@drawable/ic_arrow_back"
-            android:tint="@color/sv_on_primary" />
+            app:tint="@color/sv_on_primary" />
 
         <TextView
             android:id="@+id/tvTitulo"
@@ -54,13 +54,16 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="12dp"
-                android:hint="@string/form_cliente">
+                android:hint="@string/form_cliente"
+                app:boxBackgroundColor="@color/sv_surface"
+                app:boxStrokeColor="@color/sv_input_stroke">
 
                 <AutoCompleteTextView
                     android:id="@+id/acCliente"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:inputType="none" />
+                    android:inputType="none"
+                    android:textColor="@color/sv_text_primary" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
@@ -69,13 +72,16 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="12dp"
-                android:hint="@string/form_servicio">
+                android:hint="@string/form_servicio"
+                app:boxBackgroundColor="@color/sv_surface"
+                app:boxStrokeColor="@color/sv_input_stroke">
 
                 <AutoCompleteTextView
                     android:id="@+id/acServicio"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:inputType="none" />
+                    android:inputType="none"
+                    android:textColor="@color/sv_text_primary"/>
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
@@ -84,13 +90,16 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="12dp"
-                android:hint="@string/form_equipo">
+                android:hint="@string/form_equipo"
+                app:boxBackgroundColor="@color/sv_surface"
+                app:boxStrokeColor="@color/sv_input_stroke">
 
                 <AutoCompleteTextView
                     android:id="@+id/acEquipo"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:inputType="none" />
+                    android:inputType="none"
+                    android:textColor="@color/sv_text_primary"/>
             </com.google.android.material.textfield.TextInputLayout>
 
             <!-- Placa y año -->
@@ -107,7 +116,9 @@
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="8dp"
                     android:layout_weight="1"
-                    android:hint="@string/form_placa">
+                    android:hint="@string/form_placa"
+                    app:boxBackgroundColor="@color/sv_surface"
+                    app:boxStrokeColor="@color/sv_input_stroke">
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/etPlaca"
@@ -115,7 +126,8 @@
                         android:layout_height="wrap_content"
                         android:inputType="textCapCharacters"
                         android:maxLength="15"
-                        android:maxLines="1" />
+                        android:maxLines="1"
+                        android:textColor="@color/sv_text_primary" />
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <com.google.android.material.textfield.TextInputLayout
@@ -125,7 +137,9 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"
                     android:layout_weight="1"
-                    android:hint="@string/form_anio">
+                    android:hint="@string/form_anio"
+                    app:boxBackgroundColor="@color/sv_surface"
+                    app:boxStrokeColor="@color/sv_input_stroke">
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/etAnio"
@@ -133,7 +147,8 @@
                         android:layout_height="wrap_content"
                         android:inputType="number"
                         android:maxLength="4"
-                        android:maxLines="1" />
+                        android:maxLines="1"
+                        android:textColor="@color/sv_text_primary" />
                 </com.google.android.material.textfield.TextInputLayout>
             </LinearLayout>
 
@@ -151,7 +166,9 @@
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="8dp"
                     android:layout_weight="1"
-                    android:hint="@string/form_marca">
+                    android:hint="@string/form_marca"
+                    app:boxBackgroundColor="@color/sv_surface"
+                    app:boxStrokeColor="@color/sv_input_stroke">
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/etMarca"
@@ -159,7 +176,8 @@
                         android:layout_height="wrap_content"
                         android:inputType="textCapWords"
                         android:maxLength="40"
-                        android:maxLines="1" />
+                        android:maxLines="1"
+                        android:textColor="@color/sv_text_primary" />
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <com.google.android.material.textfield.TextInputLayout
@@ -169,7 +187,9 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"
                     android:layout_weight="1"
-                    android:hint="@string/form_modelo">
+                    android:hint="@string/form_modelo"
+                    app:boxBackgroundColor="@color/sv_surface"
+                    app:boxStrokeColor="@color/sv_input_stroke">
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/etModelo"
@@ -177,7 +197,8 @@
                         android:layout_height="wrap_content"
                         android:inputType="textCapWords"
                         android:maxLength="40"
-                        android:maxLines="1" />
+                        android:maxLines="1"
+                        android:textColor="@color/sv_text_primary" />
                 </com.google.android.material.textfield.TextInputLayout>
             </LinearLayout>
 
@@ -188,6 +209,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="12dp"
                 android:hint="@string/form_diagnostico"
+                app:boxBackgroundColor="@color/sv_surface"
+                app:boxStrokeColor="@color/sv_input_stroke"
                 app:counterEnabled="true"
                 app:counterMaxLength="1000">
 
@@ -207,13 +230,16 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="16dp"
-                android:hint="@string/form_estado">
+                android:hint="@string/form_estado"
+                app:boxBackgroundColor="@color/sv_surface"
+                app:boxStrokeColor="@color/sv_input_stroke">
 
                 <AutoCompleteTextView
                     android:id="@+id/acEstado"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:inputType="none" />
+                    android:inputType="none"
+                    android:textColor="@color/sv_text_primary" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
@@ -223,13 +249,16 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="16dp"
                 android:hint="@string/form_tecnico"
-                android:visibility="gone">
+                android:visibility="gone"
+                app:boxBackgroundColor="@color/sv_surface"
+                app:boxStrokeColor="@color/sv_input_stroke">
 
                 <AutoCompleteTextView
                     android:id="@+id/acTecnico"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:inputType="none" />
+                    android:inputType="none"
+                    android:textColor="@color/sv_text_primary" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <!-- Repuestos utilizados -->
